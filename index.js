@@ -1,38 +1,94 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const cors = require('cors');
+const Schema = mongoose.Schema;
+
 
 const app = express();
 const port = 3001;
 
-mongoose.connect('mongodb://localhost/scanner', {useNewUrlParser: true});
+mongoose.connect('mongodb://localhost/scanner', {useNewUrlParser: true, useUnifiedTopology: true});
 
-let schema = mongoose.Schema({name: String, test: Number});
-let Model = mongoose.model("Scan", schema, "scans");
-
-app.get('/', function (req, res) {
-
-    res.send("hello world")
+let equipmentSchema = mongoose.Schema({
+    identifier: {type: String, required: true},
+    image: String,
+    parts: [{
+        identifier: {type: String, required: true},
+        image: String,
+        order: {type: Number, required: true}
+    }]
 });
 
-app.get('/save', function (req, res) {
+let scanSchema = mongoose.Schema({
+    equipment: {type: Schema.Types.ObjectId, required: true},
+    part: {type: Schema.Types.ObjectId, required: true},
+    time: {type: Schema.Types.Date, required: true}
+});
+
+let EquipmentModel = mongoose.model("Equipment", equipmentSchema, "equipment");
+
+app.get('/', function (req, res) {
+    res.send("Hello World " + req.query.hello)
+});
+
+app.get('/parts/:id', cors(), function(req, res) {
+   EquipmentModel.findOne({_id: req.params.id}).exec(function (err, equipment) {
+       if (equipment == null)
+           return res.send([{}]);
+
+       return res.send(JSON.stringify(equipment.parts));
+   });
+});
+
+app.get('/equipment/:id', cors(), function (req, res) {
+    EquipmentModel.findOne({_id: req.params.id}).exec(function (err, equipment) {
+        return res.send(JSON.stringify(equipment));
+    });
+});
+
+app.get('/equipment', cors(), function (req, res) {
+    EquipmentModel.find().lean().exec(function (err, equipment) {
+        return res.send(JSON.stringify(equipment));
+    });
+});
+
+app.get('/createsample', cors(), function (req, res) {
     let db = mongoose.connection;
     db.on('error', console.error.bind(console, 'connection error:'));
     db.once('open', function () {
         console.log("open?")
     });
 
-    let scan1 = new Model({name: "hello", test: 1});
+    let testEquipmentModel = new EquipmentModel({
+        _id: new mongoose.Types.ObjectId(),
+        identifier: "Machine 1",
+        image: "machine.jpg",
+        parts: [
+            {
+                identifier: "Sample Part 1",
+                image: "machine.jpg",
+                order: 1
+            },
+            {
+                identifier: "Sample Part 2",
+                image: "machine.jpg",
+                order: 2
+            }
+        ]
+    });
 
-    scan1.save(function (err, scan) {
+    testEquipmentModel.save(function (err, equipment) {
         if (err)
             return console.error("couldn't save");
-        console.log(scan.name + " was successfully saved");
+        console.log(equipment.identifier + " was successfully saved");
     });
+
     res.send('Saved!')
 });
-app.get('/fetch', function(req, res) {
-    Model.find().lean().exec(function (err, scans) {
-       return res.send(JSON.stringify(scans));
+
+app.get('/equipment/parts/', cors(), function (req, res) {
+    PartModel.find({_id: req.query.id}).lean().exec(function (err, equipment) {
+        return res.send(JSON.stringify(equipment));
     });
 });
 
