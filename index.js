@@ -15,6 +15,7 @@ let equipmentSchema = mongoose.Schema({
     parts: [{
         identifier: {type: String, required: true},
         image: String,
+        description: String,
         order: {type: Number, required: true}
     }]
 });
@@ -22,6 +23,7 @@ let equipmentSchema = mongoose.Schema({
 let scanSchema = mongoose.Schema({
     equipment: {type: Schema.Types.ObjectId, required: true},
     part: {type: Schema.Types.ObjectId, required: true},
+    status: Boolean,
     time: {type: Schema.Types.Date, required: true}
 });
 
@@ -31,8 +33,8 @@ app.get('/', function (req, res) {
     res.send("Hello World " + req.query.hello)
 });
 
-app.get('/parts/:id', cors(), function(req, res) {
-   EquipmentModel.findOne({_id: req.params.id}).exec(function (err, equipment) {
+app.get('/parts/:equipmentId', cors(), function(req, res) {
+   EquipmentModel.findOne({_id: req.params.equipmentId}).exec(function (err, equipment) {
        if (equipment == null)
            return res.send([{}]);
 
@@ -40,9 +42,12 @@ app.get('/parts/:id', cors(), function(req, res) {
    });
 });
 
-app.get('/equipment/:id', cors(), function (req, res) {
-    EquipmentModel.findOne({_id: req.params.id}).exec(function (err, equipment) {
-        return res.send(JSON.stringify(equipment));
+app.get('/parts/:equipmentId/:partId', cors(), function(req, res) {
+    EquipmentModel.findOne({_id: req.params.equipmentId}).exec(function (err, equipment) {
+        if (equipment == null)
+            return res.send([{}]);
+
+        return res.send(JSON.stringify(equipment.parts.id(req.params.partId)));
     });
 });
 
@@ -84,12 +89,6 @@ app.get('/createsample', cors(), function (req, res) {
     });
 
     res.send('Saved!')
-});
-
-app.get('/equipment/parts/', cors(), function (req, res) {
-    PartModel.find({_id: req.query.id}).lean().exec(function (err, equipment) {
-        return res.send(JSON.stringify(equipment));
-    });
 });
 
 app.listen(port, () => console.log(`Scanner server listening on port ${port}`));
