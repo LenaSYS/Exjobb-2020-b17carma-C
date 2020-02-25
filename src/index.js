@@ -24,6 +24,6 @@ if (process.env.ENVIRONMENT === 'DEVELOPMENT') {
         cert: certificateKey
     };
 
-    let server = https.createServer(credentials, app);
+    let server = https.createServer(credentials, app, () => console.log(`Scanner server listening on port ${process.env.PORT}`));
     server.listen(process.env.PORT);
 }
