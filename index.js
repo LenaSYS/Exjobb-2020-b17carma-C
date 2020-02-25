@@ -112,4 +112,4 @@ var httpsServer = https.createServer(credentials, app);
 
 httpsServer.listen(3001);
 
-app.listen(port, () => console.log(`Scanner server listening on port ${port}`));
+//app.listen(port, () => console.log(`Scanner server listening on port ${port}`));
