@@ -3,7 +3,6 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const Schema = mongoose.Schema;
 
-
 const app = express();
 const port = 3001;
 
@@ -57,6 +56,12 @@ app.get('/equipment', cors(), function (req, res) {
     });
 });
 
+app.get('/equipment/:equipmentId', cors(), function (req, res) {
+    EquipmentModel.findOne({_id: req.params.equipmentId}).lean().exec(function (err, equipment) {
+        return res.send(JSON.stringify(equipment));
+    });
+});
+
 app.get('/createsample', cors(), function (req, res) {
     let db = mongoose.connection;
     db.on('error', console.error.bind(console, 'connection error:'));
@@ -72,11 +77,13 @@ app.get('/createsample', cors(), function (req, res) {
             {
                 identifier: "Sample Part 1",
                 image: "machine.jpg",
+                description: "A sample part which is supposed to look like a sample part.",
                 order: 1
             },
             {
                 identifier: "Sample Part 2",
                 image: "machine.jpg",
+                description: "A sample part which is supposed to look like a sample part.",
                 order: 2
             }
         ]
