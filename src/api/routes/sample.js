@@ -11,8 +11,8 @@ let ScanModel = mongoose.model("Scan", scanSchema, "scans");
 router.get('/reset', function (req, res) {
     mongoose.connect(process.env.MONGODB_CONNECTION_STRING, {useNewUrlParser: true, useUnifiedTopology: true});
 
-    EquipmentModel.remove({});
-    ScanModel.remove({});
+    EquipmentModel.deleteMany({});
+    ScanModel.deleteMany({});
 
     return res.send({"status": "cleared"});
 });
@@ -20,7 +20,7 @@ router.get('/reset', function (req, res) {
 router.get('/createequipment', function (req, res) {
     mongoose.connect(process.env.MONGODB_CONNECTION_STRING, {useNewUrlParser: true, useUnifiedTopology: true});
 
-    let equipment = new EquipmentModel([
+    let equipment = new EquipmentModel(
         {
             _id: new mongoose.Types.ObjectId('5e53f1c36c7df42438366bde'),
             identifier: 'LG932-A',
@@ -30,18 +30,19 @@ router.get('/createequipment', function (req, res) {
                     _id: new mongoose.Types.ObjectId('5e53f1c36c7df42438366be0'),
                     identifier: 'Hinge',
                     image: 'machine.jpg',
+                    description: 'A very important part which has to be carefully inspected'
                 },
                 {
                     _id: new mongoose.Types.ObjectId('5e53f1c36c7df42438366be1'),
                     identifier: 'Bearings',
                     image: 'machine2.jpg',
+                    description: 'Some important part. Pay attention to xyz when inspecting it.'
                 },
 
             ]
-        },
-    ]);
+        });
 
-    let equipment2 = new EquipmentModel([
+    let equipment2 = new EquipmentModel(
         {
             _id: new mongoose.Types.ObjectId('5e541d5eca12bc460ca4ee70'),
             identifier: 'JG923BV-A',
@@ -63,8 +64,7 @@ router.get('/createequipment', function (req, res) {
                     image: 'machine2.jpg',
                 },
             ]
-        },
-    ]);
+        });
 
     equipment.save(function (err) {
         if (err)
