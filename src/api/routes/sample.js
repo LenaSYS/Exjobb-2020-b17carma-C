@@ -75,12 +75,39 @@ router.get('/equipment', function (req, res) {
             ]
         });
 
+    let equipment3 = new EquipmentModel(
+        {
+            identifier: 'JG923BV-A',
+            image: 'machine2.jpg',
+            parts: [
+                {
+                    identifier: 'Axle 1',
+                    image: 'machine2.jpg',
+                    description: 'A very important part which has to be carefully inspected'
+                },
+                {
+                    identifier: 'Frame member',
+                    image: 'machine.jpg',
+                    description: 'A very important part which has to be carefully inspected'
+                },
+                {
+                    identifier: 'Control Mechanism',
+                    image: 'machine.jpg',
+                    description: 'A very important part which has to be carefully inspected'
+                },
+            ]
+        });
+
     equipment.save(function (err) {
         if (err)
             return console.log("error saving sample equipment " + err)
     });
 
     equipment2.save(function (err) {
+        if (err)
+            return console.log("error saving sample equipment2 " + err)
+    });
+    equipment3.save(function (err) {
         if (err)
             return console.log("error saving sample equipment2 " + err)
     });
