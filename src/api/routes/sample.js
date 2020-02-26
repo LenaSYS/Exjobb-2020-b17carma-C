@@ -11,8 +11,8 @@ let ScanModel = mongoose.model("Scan", scanSchema, "scans");
 router.get('/reset', function (req, res) {
     mongoose.connect(process.env.MONGODB_CONNECTION_STRING, {useNewUrlParser: true, useUnifiedTopology: true});
 
-    EquipmentModel.collection.dropCollection();
-    ScanModel.collection.dropCollection();
+    EquipmentModel.collection.drop();
+    ScanModel.collection.drop();
 
     return res.send({"status": "dropped"});
 });
