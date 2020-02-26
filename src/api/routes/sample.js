@@ -32,7 +32,7 @@ router.get('/createequipment', function (req, res) {
                     image: 'machine.jpg',
                 },
                 {
-                    _id: new mongoose.Types.ObjectId('5e53f1c36c7df42438366be2'),
+                    _id: new mongoose.Types.ObjectId('5e53f1c36c7df42438366be1'),
                     identifier: 'Bearings',
                     image: 'machine2.jpg',
                 },
@@ -43,22 +43,22 @@ router.get('/createequipment', function (req, res) {
 
     let equipment2 = new EquipmentModel([
         {
-            _id: new mongoose.Types.ObjectId('5e52f1c36c7df42438366dde'),
+            _id: new mongoose.Types.ObjectId('5e541d5eca12bc460ca4ee70'),
             identifier: 'JG923BV-A',
             image: 'machine2.jpg',
             parts: [
                 {
-                    _id: new mongoose.Types.ObjectId('5e53f1c36c7gf42538366be0'),
+                    _id: new mongoose.Types.ObjectId('5e541d5eca12bc460ca4ee72'),
                     identifier: 'Hinge',
                     image: 'machine.jpg',
                 },
                 {
-                    _id: new mongoose.Types.ObjectId('5e53f2c36c7df42438366be2'),
+                    _id: new mongoose.Types.ObjectId('5e541d5eca12bc460ca4ee73'),
                     identifier: 'Bearings',
                     image: 'machine2.jpg',
                 },
                 {
-                    _id: new mongoose.Types.ObjectId('5e53f2c36c7df42438361be2'),
+                    _id: new mongoose.Types.ObjectId('5e5536c1aa4b0040f88d680f'),
                     identifier: 'Couplings',
                     image: 'machine2.jpg',
                 },
