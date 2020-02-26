@@ -68,12 +68,12 @@ router.get('/createequipment', function (req, res) {
 
     equipment.save(function (err) {
         if (err)
-            return console.log("error saving sample equipment")
+            return console.log("error saving sample equipment " + err)
     });
 
     equipment2.save(function (err) {
         if (err)
-            return console.log("error saving sample equipment2")
+            return console.log("error saving sample equipment2 " + err)
     });
 
     return res.send({"status": "created"});
