@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 
 const router = express.Router();
-var equipmentSchema = require("../mongodb/schema/EquipmentSchema");
+const equipmentSchema = require("../mongodb/schema/EquipmentSchema");
 
 let EquipmentModel = mongoose.model("Equipment", equipmentSchema, "equipment");
 

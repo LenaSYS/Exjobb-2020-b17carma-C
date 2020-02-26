@@ -3,19 +3,12 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 
 const router = express.Router();
-const equipmentSchema = require("../mongodb/schema/EquipmentSchema");
+const scanSchema = require("../mongodb/schema/ScanSchema");
 
-let EquipmentModel = mongoose.model("Equipment", equipmentSchema, "equipment");
+let ScanModel = mongoose.model("Scan", scanSchema, "equipment");
 
-router.get('/:equipmentId', cors(), function(req, res) {
-    mongoose.connect('mongodb://localhost/scanner', {useNewUrlParser: true, useUnifiedTopology: true});
-
-    EquipmentModel.findOne({_id: req.params.equipmentId}).exec(function (err, equipment) {
-        if (equipment == null)
-            return res.send([{}]);
-
-        return res.send(JSON.stringify(equipment.parts));
-    });
+router.post('/', cors(), function(req, res) {
+   console.log("equip: " + req.body.equipmentId + ", part: " + req.body.partId);
 });
 
 router.get('/:equipmentId/:partId', cors(), function(req, res) {

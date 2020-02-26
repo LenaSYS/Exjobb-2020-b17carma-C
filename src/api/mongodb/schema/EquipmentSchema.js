@@ -1,7 +1,5 @@
 const mongoose = require('mongoose');
 
-const Schema = mongoose.Schema;
-
 let equipmentSchema = mongoose.Schema({
     identifier: {type: String, required: true},
     image: String,
