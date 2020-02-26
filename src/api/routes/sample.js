@@ -77,7 +77,7 @@ router.get('/equipment', function (req, res) {
 
     let equipment3 = new EquipmentModel(
         {
-            identifier: 'JG923BV-A',
+            identifier: 'MKV3431',
             image: 'machine2.jpg',
             parts: [
                 {
