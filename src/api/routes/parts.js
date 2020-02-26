@@ -1,13 +1,12 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const cors = require('cors');
 
 const router = express.Router();
 const equipmentSchema = require("../mongodb/schema/EquipmentSchema");
 
 let EquipmentModel = mongoose.model("Equipment", equipmentSchema, "equipment");
 
-router.get('/:equipmentId', cors(), function(req, res) {
+router.get('/:equipmentId', function(req, res) {
     mongoose.connect('mongodb://localhost/scanner', {useNewUrlParser: true, useUnifiedTopology: true});
 
     EquipmentModel.findOne({_id: req.params.equipmentId}).exec(function (err, equipment) {
@@ -18,7 +17,7 @@ router.get('/:equipmentId', cors(), function(req, res) {
     });
 });
 
-router.get('/:equipmentId/:partId', cors(), function(req, res) {
+router.get('/:equipmentId/:partId', function(req, res) {
     mongoose.connect('mongodb://localhost/scanner', {useNewUrlParser: true, useUnifiedTopology: true});
 
     EquipmentModel.findOne({_id: req.params.equipmentId}).exec(function (err, equipment) {
