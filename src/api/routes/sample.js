@@ -11,13 +11,19 @@ let ScanModel = mongoose.model("Scan", scanSchema, "scans");
 router.get('/reset', function (req, res) {
     mongoose.connect(process.env.MONGODB_CONNECTION_STRING, {useNewUrlParser: true, useUnifiedTopology: true});
 
-    EquipmentModel.deleteMany({});
-    ScanModel.deleteMany({});
+    EquipmentModel.deleteMany({}, function (err) {
+        if (err)
+            console.log(err);
+    });
+    ScanModel.deleteMany({}, function (err) {
+        if (err)
+            console.log(err);
+    });
 
     return res.send({"status": "cleared"});
 });
 
-router.get('/createequipment', function (req, res) {
+router.get('/equipment', function (req, res) {
     mongoose.connect(process.env.MONGODB_CONNECTION_STRING, {useNewUrlParser: true, useUnifiedTopology: true});
 
     let equipment = new EquipmentModel(
@@ -52,16 +58,19 @@ router.get('/createequipment', function (req, res) {
                     _id: new mongoose.Types.ObjectId('5e541d5eca12bc460ca4ee72'),
                     identifier: 'Hinge',
                     image: 'machine.jpg',
+                    description: 'A very important part which has to be carefully inspected'
                 },
                 {
                     _id: new mongoose.Types.ObjectId('5e541d5eca12bc460ca4ee73'),
                     identifier: 'Bearings',
                     image: 'machine2.jpg',
+                    description: 'A very important part which has to be carefully inspected'
                 },
                 {
                     _id: new mongoose.Types.ObjectId('5e5536c1aa4b0040f88d680f'),
                     identifier: 'Couplings',
                     image: 'machine2.jpg',
+                    description: 'A very important part which has to be carefully inspected'
                 },
             ]
         });
@@ -79,7 +88,7 @@ router.get('/createequipment', function (req, res) {
     return res.send({"status": "created"});
 });
 
-router.get('/createscans', function (req, res) {
+router.get('/scans', function (req, res) {
     mongoose.connect(process.env.MONGODB_CONNECTION_STRING, {useNewUrlParser: true, useUnifiedTopology: true});
 
     let scan = new ScanModel({
