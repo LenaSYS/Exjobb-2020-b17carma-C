@@ -4,7 +4,7 @@ const scanSchema = require("../mongodb/schema/ScanSchema");
 
 const router = express.Router();
 
-let ScanModel = mongoose.model("Scan", scanSchema, "equipment");
+let ScanModel = mongoose.model("Scan", scanSchema, "scans");
 
 router.post('/', function (req, res) {
     mongoose.connect(process.env.MONGODB_CONNECTION_STRING, {useNewUrlParser: true, useUnifiedTopology: true});
