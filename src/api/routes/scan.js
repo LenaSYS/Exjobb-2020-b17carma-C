@@ -9,6 +9,7 @@ let ScanModel = mongoose.model("Scan", scanSchema, "equipment");
 
 router.post('/', cors(), function(req, res) {
    console.log("equip: " + req.body.equipmentId + ", part: " + req.body.partId);
+   return res.send([{}]);
 });
 
 router.get('/:equipmentId/:partId', cors(), function(req, res) {
