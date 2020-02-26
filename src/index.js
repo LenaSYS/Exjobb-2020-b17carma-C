@@ -1,8 +1,8 @@
 const express = require('express');
 const cors = require('cors');
-
 const equipment = require('./api/routes/equipment');
 const scan = require('./api/routes/scan');
+const sample = require('./api/routes/sample');
 const dotenv = require('dotenv');
 
 dotenv.config();
@@ -14,6 +14,7 @@ app.use(express.json());
 
 app.use('/equipment', equipment);
 app.use('/scan', scan);
+app.use('/sample', sample);
 
 if (process.env.ENVIRONMENT === 'DEVELOPMENT') {
     app.listen(process.env.PORT, () => console.log(`Scanner server listening on port ${process.env.PORT}`));
