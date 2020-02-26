@@ -11,16 +11,10 @@ let ScanModel = mongoose.model("Scan", scanSchema, "scans");
 router.get('/reset', function (req, res) {
     mongoose.connect(process.env.MONGODB_CONNECTION_STRING, {useNewUrlParser: true, useUnifiedTopology: true});
 
-    mongoose.connection.db.dropCollection('equipment', function(err, result) {
-        if (!err)
-            console.log("dropped equipment")
-    });
-    mongoose.connection.db.dropCollection('scans', function(err, result) {
-        if (!err)
-            console.log("dropped scans")
-    });
+    EquipmentModel.remove({});
+    ScanModel.remove({});
 
-    return res.send({"status": "dropped"});
+    return res.send({"status": "cleared"});
 });
 
 router.get('/createequipment', function (req, res) {
