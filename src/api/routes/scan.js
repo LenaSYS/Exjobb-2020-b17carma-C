@@ -28,22 +28,22 @@ router.post('/', function (req, res) {
 router.get('/:equipmentId', function (req, res) {
    mongoose.connect('mongodb://localhost/scanner', {useNewUrlParser: true, useUnifiedTopology: true});
 
-   ScanModel.find({equipmentId: req.params.equipmentId}).exec(function (err, equipment) {
-      if (equipment == null)
+   ScanModel.find({equipmentId: req.params.equipmentId}).exec(function (err, scans) {
+      if (scans == null)
          return res.send([{}]);
 
-      return res.send(JSON.stringify(equipment));
+      return res.send(JSON.stringify(scans));
    });
 });
 
 router.get('/:equipmentId/:partId', function (req, res) {
    mongoose.connect('mongodb://localhost/scanner', {useNewUrlParser: true, useUnifiedTopology: true});
 
-   ScanModel.find({equipmentId: req.params.equipmentId, partId : req.params.partId}).exec(function (err, equipment) {
-      if (equipment == null)
+   ScanModel.find({equipmentId: req.params.equipmentId, partId : req.params.partId}).exec(function (err, scans) {
+      if (scans == null)
          return res.send([{}]);
 
-      return res.send(JSON.stringify(equipment.parts));
+      return res.send(JSON.stringify(scans));
    });
 });
 
