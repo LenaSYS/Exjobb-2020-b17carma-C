@@ -28,7 +28,7 @@ router.post('/', function (req, res) {
 router.get('/:equipmentId', function (req, res) {
     mongoose.connect(process.env.MONGODB_CONNECTION_STRING, {useNewUrlParser: true, useUnifiedTopology: true});
 
-    ScanModel.find({equipmentId: req.params.equipmentId}).exec(function (err, scans) {
+    ScanModel.find({equipmentId: req.params.equipmentId}).sort({time: 'descending'}).exec(function (err, scans) {
         if (scans == null)
             return res.send([{}]);
 
@@ -39,7 +39,7 @@ router.get('/:equipmentId', function (req, res) {
 router.get('/:equipmentId/:partId', function (req, res) {
     mongoose.connect(process.env.MONGODB_CONNECTION_STRING, {useNewUrlParser: true, useUnifiedTopology: true});
 
-    ScanModel.find({equipmentId: req.params.equipmentId, partId: req.params.partId}).exec(function (err, scans) {
+    ScanModel.find({equipmentId: req.params.equipmentId, partId: req.params.partId}).sort({time: 'descending'}).exec(function (err, scans) {
         if (scans == null)
             return res.send([{}]);
 
