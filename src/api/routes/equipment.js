@@ -22,4 +22,15 @@ router.get('/:equipmentId', function (req, res) {
     });
 });
 
+router.get('/:equipmentId/:partId', function(req, res) {
+    mongoose.connect(process.env.MONGODB_CONNECTION_STRING, {useNewUrlParser: true, useUnifiedTopology: true});
+
+    EquipmentModel.findOne({_id: req.params.equipmentId}).exec(function (err, equipment) {
+        if (equipment == null)
+            return res.send([{}]);
+
+        return res.send(JSON.stringify(equipment.parts.id(req.params.partId)));
+    });
+});
+
 module.exports = router;

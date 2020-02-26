@@ -2,7 +2,6 @@ const express = require('express');
 const cors = require('cors');
 
 const equipment = require('./api/routes/equipment');
-const parts = require('./api/routes/parts');
 const scan = require('./api/routes/scan');
 const dotenv = require('dotenv');
 
@@ -14,7 +13,6 @@ app.use(cors());
 app.use(express.json());
 
 app.use('/equipment', equipment);
-app.use('/parts', parts);
 app.use('/scan', scan);
 
 if (process.env.ENVIRONMENT === 'DEVELOPMENT') {
