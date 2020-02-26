@@ -4,9 +4,9 @@ const cors = require('cors');
 const equipment = require('./api/routes/equipment');
 const parts = require('./api/routes/parts');
 const scan = require('./api/routes/scan');
+const dotenv = require('dotenv');
 
-require('dotenv').config();
-
+dotenv.config();
 
 const app = express();
 

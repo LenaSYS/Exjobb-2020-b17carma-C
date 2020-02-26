@@ -1,8 +1,8 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const equipmentSchema = require("../mongodb/schema/EquipmentSchema");
 
 const router = express.Router();
-const equipmentSchema = require("../mongodb/schema/EquipmentSchema");
 
 let EquipmentModel = mongoose.model("Equipment", equipmentSchema, "equipment");
 
