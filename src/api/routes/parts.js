@@ -7,7 +7,7 @@ const router = express.Router();
 let EquipmentModel = mongoose.model("Equipment", equipmentSchema, "equipment");
 
 router.get('/:equipmentId', function(req, res) {
-    mongoose.connect('mongodb://localhost/scanner', {useNewUrlParser: true, useUnifiedTopology: true});
+    mongoose.connect(process.env.MONGODB_CONNECTION_STRING, {useNewUrlParser: true, useUnifiedTopology: true});
 
     EquipmentModel.findOne({_id: req.params.equipmentId}).exec(function (err, equipment) {
         if (equipment == null)
@@ -18,7 +18,7 @@ router.get('/:equipmentId', function(req, res) {
 });
 
 router.get('/:equipmentId/:partId', function(req, res) {
-    mongoose.connect('mongodb://localhost/scanner', {useNewUrlParser: true, useUnifiedTopology: true});
+    mongoose.connect(process.env.MONGODB_CONNECTION_STRING, {useNewUrlParser: true, useUnifiedTopology: true});
 
     EquipmentModel.findOne({_id: req.params.equipmentId}).exec(function (err, equipment) {
         if (equipment == null)
