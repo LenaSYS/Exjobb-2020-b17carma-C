@@ -1,21 +1,26 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const scanSchema = require("../mongodb/schema/ScanSchema");
-const equipmentSchema = require("../mongodb/schema/EquipmentSchema");
 
 const router = express.Router();
 
-let EquipmentModel = mongoose.model("Equipment", equipmentSchema, "equipment");
-let ScanModel = mongoose.model("Scan", scanSchema, "scans");
+let Equipment = require("../mongodb/schema/Equipment");
+let Part = require("../mongodb/schema/Part");
+let Scan = require("../mongodb/schema/Scan");
 
 router.get('/reset', function (req, res) {
     mongoose.connect(process.env.MONGODB_CONNECTION_STRING, {useNewUrlParser: true, useUnifiedTopology: true});
 
-    EquipmentModel.deleteMany({}, function (err) {
+    Scan.deleteMany({}, function (err) {
         if (err)
             console.log(err);
     });
-    ScanModel.deleteMany({}, function (err) {
+
+    Part.deleteMany({}, function (err) {
+        if (err)
+            console.log(err);
+    });
+
+    Equipment.deleteMany({}, function (err) {
         if (err)
             console.log(err);
     });
@@ -26,90 +31,46 @@ router.get('/reset', function (req, res) {
 router.get('/equipment', function (req, res) {
     mongoose.connect(process.env.MONGODB_CONNECTION_STRING, {useNewUrlParser: true, useUnifiedTopology: true});
 
-    let equipment = new EquipmentModel(
+    let equipment = new Equipment(
         {
             _id: new mongoose.Types.ObjectId('5e53f1c36c7df42438366bde'),
             identifier: 'LG932-A',
             image: 'machine.jpg',
-            parts: [
-                {
-                    _id: new mongoose.Types.ObjectId('5e53f1c36c7df42438366be0'),
-                    identifier: 'Hinge',
-                    image: 'machine.jpg',
-                    description: 'A very important part which has to be carefully inspected'
-                },
-                {
-                    _id: new mongoose.Types.ObjectId('5e53f1c36c7df42438366be1'),
-                    identifier: 'Bearings',
-                    image: 'machine2.jpg',
-                    description: 'Some important part. Pay attention to xyz when inspecting it.'
-                },
-
-            ]
-        });
-
-    let equipment2 = new EquipmentModel(
-        {
-            _id: new mongoose.Types.ObjectId('5e541d5eca12bc460ca4ee70'),
-            identifier: 'JG923BV-A',
-            image: 'machine2.jpg',
-            parts: [
-                {
-                    _id: new mongoose.Types.ObjectId('5e541d5eca12bc460ca4ee72'),
-                    identifier: 'Hinge',
-                    image: 'machine.jpg',
-                    description: 'A very important part which has to be carefully inspected'
-                },
-                {
-                    _id: new mongoose.Types.ObjectId('5e541d5eca12bc460ca4ee73'),
-                    identifier: 'Bearings',
-                    image: 'machine2.jpg',
-                    description: 'A very important part which has to be carefully inspected'
-                },
-                {
-                    _id: new mongoose.Types.ObjectId('5e5536c1aa4b0040f88d680f'),
-                    identifier: 'Couplings',
-                    image: 'machine2.jpg',
-                    description: 'A very important part which has to be carefully inspected'
-                },
-            ]
-        });
-
-    let equipment3 = new EquipmentModel(
-        {
-            identifier: 'MKV3431',
-            image: 'machine2.jpg',
-            parts: [
-                {
-                    identifier: 'Axle 1',
-                    image: 'machine2.jpg',
-                    description: 'A very important part which has to be carefully inspected'
-                },
-                {
-                    identifier: 'Frame member',
-                    image: 'machine.jpg',
-                    description: 'A very important part which has to be carefully inspected'
-                },
-                {
-                    identifier: 'Control Mechanism',
-                    image: 'machine.jpg',
-                    description: 'A very important part which has to be carefully inspected'
-                },
-            ]
         });
 
     equipment.save(function (err) {
         if (err)
             return console.log("error saving sample equipment " + err)
-    });
 
-    equipment2.save(function (err) {
-        if (err)
-            return console.log("error saving sample equipment2 " + err)
-    });
-    equipment3.save(function (err) {
-        if (err)
-            return console.log("error saving sample equipment2 " + err)
+        let part1 = new Part(
+            {
+                _id: new mongoose.Types.ObjectId('5e53f1c36c7df42438366be0'),
+                equipment: equipment._id,
+                identifier: 'Hinge',
+                image: 'machine.jpg',
+                description: 'A very important part which has to be carefully inspected'
+            }
+        );
+
+        let part2 = new Part(
+            {
+                _id: new mongoose.Types.ObjectId('5e53f1c36c7df42438366be1'),
+                equipment: equipment._id,
+                identifier: 'Bearings',
+                image: 'machine2.jpg',
+                description: 'Some important part. Pay attention to xyz when inspecting it.'
+            }
+        );
+
+        part1.save(function (err) {
+            if (err)
+                return console.log("error saving sample equipment " + err)
+        });
+
+        part2.save(function (err) {
+            if (err)
+                return console.log("error saving sample equipment " + err)
+        });
     });
 
     return res.send({"status": "created"});
@@ -118,7 +79,7 @@ router.get('/equipment', function (req, res) {
 router.get('/scans', function (req, res) {
     mongoose.connect(process.env.MONGODB_CONNECTION_STRING, {useNewUrlParser: true, useUnifiedTopology: true});
 
-    let scan = new ScanModel({
+    let scan = new Scan({
         equipmentId: '5e53f1c36c7df42438366bde',
         partId: '5e53f1c36c7df42438366be0',
         status: true,
@@ -127,7 +88,12 @@ router.get('/scans', function (req, res) {
 
     scan.save(function (err) {
         if (err)
-            return console.log("error saving sample equipment")
+            return console.log("error saving sample equipment");
+
+        const filter = {_id: scan.partId, equipment: scan.equipmentId};
+        const update = {lastScan: scan._id};
+
+        Part.findOneAndUpdate(filter, update);
     });
 
     return res.send({"status": "created"});
