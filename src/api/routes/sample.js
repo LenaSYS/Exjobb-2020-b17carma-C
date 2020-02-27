@@ -93,7 +93,10 @@ router.get('/scans', function (req, res) {
         const filter = {_id: scan.partId, equipment: scan.equipmentId};
         const update = {lastScan: scan._id};
 
-        Part.findOneAndUpdate(filter, update);
+        Part.updateOne(filter, update, function(err, doc) {
+            if (err)
+                console.log(err);
+        });
     });
 
     return res.send({"status": "created"});

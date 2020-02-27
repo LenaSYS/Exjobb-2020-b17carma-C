@@ -23,7 +23,10 @@ router.post('/', function (req, res) {
         const filter = {_id: req.body.partId, equipment: req.body.equipmentId};
         const update = {lastScan : scanResult._id};
 
-        Part.findOneAndUpdate(filter, update);
+        Part.updateOne(filter, update, function(err, doc) {
+            if (err)
+                console.log(err);
+        });
     });
 
     return res.send({"status": "ok"});
