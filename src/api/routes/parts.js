@@ -8,8 +8,8 @@ const Part = require("../mongodb/schema/Part");
 router.get('/:equipmentId', function (req, res) {
     mongoose.connect(process.env.MONGODB_CONNECTION_STRING, {useNewUrlParser: true, useUnifiedTopology: true});
 
-    Part.find({equipment : req.params.equipmentId}).populate('lastScan').exec(function (err, equipment) {
-        return res.send(JSON.stringify(equipment));
+    Part.find({equipment : req.params.equipmentId}).populate('lastScan').exec(function (err, parts) {
+        return res.send(JSON.stringify(parts));
     });
 });
 

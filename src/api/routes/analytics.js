@@ -1,21 +1,41 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const { isSameDay } = require('date-fns');
+const {isSameDay} = require('date-fns');
 
 const router = express.Router();
 
 let Equipment = require("../mongodb/schema/Equipment");
+let Part = require("../mongodb/schema/Part");
 let Scan = require("../mongodb/schema/Scan");
 
-function scanStatus(scans, part) {
-    var filteredScans = scans.filter(scan => scan.partId = part._id && isSameDay(new Date(), scan.time));
+router.get('/:equipmentId/scans', function (req, res) {
+    mongoose.connect(process.env.MONGODB_CONNECTION_STRING, {useNewUrlParser: true, useUnifiedTopology: true});
 
-    console.log("size: " + filteredScans.length);
+    Part.find({equipment: req.params.equipmentId}).populate('lastScan').lean().exec(function (err, parts) {
+        let scanned = 0;
+        let totalParts = parts.length;
 
-    if (filteredScans.length === 0)
-        return 2;
+        parts.map(function (part, i) {
+            if (part.hasOwnProperty('lastScan')) {
+                if (isSameDay(new Date(), part.lastScan.time)) {
+                    scanned++;
+                }
+            }
+        });
 
-    return filteredScans[0].status ? 0 : 1;
-}
+        return res.send(JSON.stringify({
+            totalParts: totalParts,
+            scanned: scanned
+        }));
+    });
+});
+
+router.get('/scans', function (req, res) {
+    mongoose.connect(process.env.MONGODB_CONNECTION_STRING, {useNewUrlParser: true, useUnifiedTopology: true});
+
+    Scan.find().lean().exec(function (err, scans) {
+        return res.send(JSON.stringify(scans));
+    });
+});
 
 module.exports = router;

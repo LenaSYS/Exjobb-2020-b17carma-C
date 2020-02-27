@@ -40,7 +40,7 @@ router.get('/equipment', function (req, res) {
 
     equipment.save(function (err) {
         if (err)
-            return console.log("error saving sample equipment " + err)
+            return console.log("error saving sample equipment " + err);
 
         let part1 = new Part(
             {
