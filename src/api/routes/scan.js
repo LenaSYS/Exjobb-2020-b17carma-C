@@ -20,14 +20,12 @@ router.post('/', function (req, res) {
         if (err)
             return console.log("error saving scan");
 
-        console.log("saving scan id: " + scanResult._id);
-        Part.findByIdAndUpdate({
-            _id: req.body.partId,
-            equipment: req.body.equipmentId
-        }, {$set: {lastScan: scanResult._id}}, function (err, doc) {
+        const filter = {_id: req.body.partId};
+        const update = {lastScan : scanResult._id};
+
+        Part.updateOne(filter, update, function(err, doc) {
             if (err)
                 console.log(err);
-            console.log(doc)
         });
     });
 
@@ -48,10 +46,7 @@ router.get('/:equipmentId', function (req, res) {
 router.get('/:equipmentId/:partId', function (req, res) {
     mongoose.connect(process.env.MONGODB_CONNECTION_STRING, {useNewUrlParser: true, useUnifiedTopology: true});
 
-    Scan.find({
-        equipmentId: req.params.equipmentId,
-        partId: req.params.partId
-    }).sort({time: 'descending'}).exec(function (err, scans) {
+    Scan.find({equipmentId: req.params.equipmentId, partId: req.params.partId}).sort({time: 'descending'}).exec(function (err, scans) {
         if (scans == null)
             return res.send([{}]);
 
