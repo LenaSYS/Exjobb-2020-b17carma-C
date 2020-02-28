@@ -1,6 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const moment = require('moment');
+const moment = require('moment-timezone');
 
 const router = express.Router();
 
