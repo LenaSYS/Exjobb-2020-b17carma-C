@@ -47,7 +47,7 @@ router.get('/equipment', function (req, res) {
                 _id: new mongoose.Types.ObjectId('5e53f1c36c7df42438366be0'),
                 equipment: equipment._id,
                 identifier: 'Hinge',
-                image: 'machine.jpg',
+                image: 'hinge.jpg',
                 description: 'A very important part which has to be carefully inspected'
             }
         );
@@ -57,7 +57,7 @@ router.get('/equipment', function (req, res) {
                 _id: new mongoose.Types.ObjectId('5e53f1c36c7df42438366be1'),
                 equipment: equipment._id,
                 identifier: 'Bearings',
-                image: 'machine2.jpg',
+                image: 'bearings.jpg',
                 description: 'Some important part. Pay attention to xyz when inspecting it.'
             }
         );
@@ -72,6 +72,13 @@ router.get('/equipment', function (req, res) {
                 return console.log("error saving sample equipment " + err)
         });
     });
+
+    let equipment2 = new Equipment(
+        {
+            _id: new mongoose.Types.ObjectId('5e53f1c36c7df42438366bde'),
+            identifier: 'LG932-A',
+            image: 'machine.jpg',
+        });
 
     return res.send({"status": "created"});
 });
