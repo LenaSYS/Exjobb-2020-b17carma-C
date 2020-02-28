@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const router = express.Router();
 
 let Scan = require("../mongodb/schema/Scan");
-let Part = require("../mongodb/schema/Equipment");
+let Part = require("../mongodb/schema/Part");
 
 router.post('/', function (req, res) {
     mongoose.connect(process.env.MONGODB_CONNECTION_STRING, {useNewUrlParser: true, useUnifiedTopology: true});
@@ -19,13 +19,9 @@ router.post('/', function (req, res) {
     scanResult.save(function (err) {
         if (err)
             return console.log("error saving scan");
-        
-        const filter = {_id: req.body.partId.toString(), equipment: req.body.equipmentId};
-        const update = {lastScan : scanResult._id};
 
-        Part.countDocuments({_id: "5e53f1c36c7df42438366be0"}, function(err, c) {
-            console.log("count: " + c)
-        });
+        const filter = {_id: req.body.partId, equipment: req.body.equipmentId};
+        const update = {lastScan : scanResult._id};
 
         Part.updateOne(filter, update, function(err, doc) {
             if (err)
