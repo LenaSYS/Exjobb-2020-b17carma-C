@@ -10,6 +10,7 @@ router.post('/', function (req, res) {
     console.log("Saved scan. Equipment Id: " + req.body.equipmentId + ", Part Id: " + req.body.partId + ", Status: " + req.body.status);
 
     let scan = new Scan({
+        _id: new mongoose.Types.ObjectId(),
         equipmentId: req.body.equipmentId,
         partId: req.body.partId,
         status: req.body.status,
