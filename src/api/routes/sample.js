@@ -86,12 +86,12 @@ router.get('/scans', function (req, res) {
         time: new Date()
     });
 
-    scan.save(function (err) {
+    scan.save(function (err, savedScan) {
         if (err)
             return console.log("error saving sample equipment");
 
         const filter = {_id: scan.partId, equipment: scan.equipmentId};
-        const update = {lastScan: mongoose.Types.ObjectId(scan._id)};
+        const update = {lastScan: savedScan._id};
 
         Part.updateOne(filter, update, function(err, doc) {
             if (err)

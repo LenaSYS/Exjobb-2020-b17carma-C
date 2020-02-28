@@ -9,21 +9,19 @@ router.post('/', function (req, res) {
     mongoose.connect(process.env.MONGODB_CONNECTION_STRING, {useNewUrlParser: true, useUnifiedTopology: true});
     console.log("Saved scan. Equipment Id: " + req.body.equipmentId + ", Part Id: " + req.body.partId + ", Status: " + req.body.status);
 
-    let scanResult = new Scan({
+    let scan = new Scan({
         equipmentId: req.body.equipmentId,
         partId: req.body.partId,
         status: req.body.status,
         time: new Date()
     });
 
-    scanResult.save(function (err) {
+    scan.save(function (err, savedScan) {
         if (err)
             return console.log("error saving scan");
 
         const filter = {_id: req.body.partId, equipment: req.body.equipmentId};
-        const update = {lastScan :  mongoose.Types.ObjectId(scanResult._id)};
-
-        console.log("updating part: " + req.body.partId + ", equipment: " + req.body.equipmentId)
+        const update = {lastScan : savedScan._id};
 
         Part.updateOne(filter, update, function(err, doc) {
             if (err)
