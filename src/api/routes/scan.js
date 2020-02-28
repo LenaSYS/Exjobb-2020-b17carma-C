@@ -23,7 +23,7 @@ router.post('/', function (req, res) {
         const filter = {_id: req.body.partId, equipment: req.body.equipmentId};
         const update = {lastScan : savedScan._id};
 
-        Part.updateOne(filter, update, {strict: false}, function(err, doc) {
+        Part.updateOne(filter, update, {upsert: true}, function(err, doc) {
             if (err)
                 console.log(err);
             console.log("updated part")
