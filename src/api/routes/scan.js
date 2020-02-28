@@ -23,7 +23,9 @@ router.post('/', function (req, res) {
         const filter = {_id: req.body.partId, equipment: req.body.equipmentId};
         const update = {lastScan : scanResult._id};
 
-        console.log("matches: " + Part.countDocuments(filter));
+        Part.countDocuments(filter, function(err, c) {
+            console.log("count: " + c)
+        });
 
         Part.updateOne(filter, update, function(err, doc) {
             if (err)
