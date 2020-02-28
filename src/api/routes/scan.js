@@ -20,7 +20,7 @@ router.post('/', function (req, res) {
         if (err)
             return console.log("error saving scan");
 
-        const filter = {_id: req.body.partId};
+        const filter = {_id: req.body.partId.toString(), equipment: req.body.equipmentId.toString()};
         const update = {lastScan : scanResult._id};
 
         Part.countDocuments(filter, function(err, c) {
