@@ -57,7 +57,7 @@ router.get('/calendar', function (req, res) {
                 })
             }
         });
-        return res.send(JSON.stringify(scans));
+        return res.send(JSON.stringify(days));
     });
 });
 
