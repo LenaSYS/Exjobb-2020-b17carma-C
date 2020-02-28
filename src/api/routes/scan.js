@@ -21,9 +21,11 @@ router.post('/', function (req, res) {
             return console.log("error saving scan");
 
         const filter = {_id: req.body.partId, equipment: req.body.equipmentId};
-        const update = {lastScan : scanResult._id};
+        const update = {lastScan :  mongoose.Types.ObjectId(scanResult._id)};
 
-        Part.update(filter, update, function(err, doc) {
+        console.log("updating part: " + req.body.partId + ", equipment: " + req.body.equipmentId)
+
+        Part.updateOne(filter, update, function(err, doc) {
             if (err)
                 console.log(err);
         });

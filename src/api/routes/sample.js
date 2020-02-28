@@ -91,9 +91,9 @@ router.get('/scans', function (req, res) {
             return console.log("error saving sample equipment");
 
         const filter = {_id: scan.partId, equipment: scan.equipmentId};
-        const update = {lastScan: scan._id};
+        const update = {lastScan: mongoose.Types.ObjectId(scan._id)};
 
-        Part.update(filter, update, function(err, doc) {
+        Part.updateOne(filter, update, function(err, doc) {
             if (err)
                 console.log(err);
         });
