@@ -14,6 +14,9 @@ function addScanInfo(parts) {
 
 function addPartScanInfo(part) {
     if (part.hasOwnProperty('lastScan')) { //Add last scan info in backend to reduce front-end overhead
+        console.log(part.lastScan.time);
+        console.log(new Date());
+
         let scanMoment = moment(part.lastScan.time);
         let currentMoment = moment(new Date());
 
