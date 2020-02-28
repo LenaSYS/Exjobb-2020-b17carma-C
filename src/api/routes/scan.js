@@ -26,6 +26,7 @@ router.post('/', function (req, res) {
         Part.updateOne(filter, update, function(err, doc) {
             if (err)
                 console.log(err);
+            console.log("updated part")
         });
     });
 
