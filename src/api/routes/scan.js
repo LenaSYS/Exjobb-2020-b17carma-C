@@ -20,6 +20,7 @@ router.post('/', function (req, res) {
         if (err)
             return console.log("error saving scan");
 
+        console.log("saving scan id: " + scanResult._id);
         Part.findOneAndUpdate({
             _id: req.body.partId,
             equipment: req.body.equipmentId
