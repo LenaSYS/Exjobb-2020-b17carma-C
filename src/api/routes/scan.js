@@ -21,7 +21,7 @@ router.post('/', function (req, res) {
             return console.log("error saving scan");
 
         const filter = {_id: req.body.partId, equipment: req.body.equipmentId};
-        const update = {lastScan : savedScan._id};
+        const update = {$set: {lastScan : savedScan._id}};
 
         Part.updateOne(filter, update, function(err, doc) {
             if (err)
