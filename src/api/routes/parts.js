@@ -14,7 +14,7 @@ router.get('/:equipmentId', function (req, res) {
             if (part.hasOwnProperty('lastScan')) { //Add last scan info in backend to reduce front-end overhead
                 let scanMoment = moment(part.lastScan.time);
                 let currentMoment = moment(new Date());
-                part.lastScanToday = currentMoment.isSame(scanMoment, 'day'); //Check if scan was made the same day as today
+                parts[i].lastScanToday = currentMoment.isSame(scanMoment, 'day'); //Check if scan was made the same day as today
             }
         });
 
