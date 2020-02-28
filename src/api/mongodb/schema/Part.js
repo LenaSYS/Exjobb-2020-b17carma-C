@@ -5,7 +5,7 @@ let partSchema = mongoose.Schema({
     identifier: {type: String, required: true},
     image: {type: String, required: true},
     description: {type: String, required: true},
-    lastScan: {type: mongoose.Schema.Types.ObjectId, ref: 'Scan'}
+    lastScan: {type: mongoose.Schema.Types.ObjectId}
 });
 
 const Part = mongoose.model("Part", partSchema, "parts");
