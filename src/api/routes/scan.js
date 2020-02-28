@@ -22,10 +22,12 @@ router.post('/', function (req, res) {
 
         console.log("saving scan id: " + scanResult._id);
         Part.updateOne({
-            _id: req.body.partId
-        }, {lastScan: scanResult._id}, function (err, doc) {
+            _id: req.body.partId,
+            equipment: req.body.equipmentId
+        }, {$set: {lastScan: scanResult._id}}, function (err, doc) {
             if (err)
                 console.log(err);
+            console.log(doc)
         });
     });
 
