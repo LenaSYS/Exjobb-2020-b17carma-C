@@ -17,12 +17,12 @@ router.post('/', function (req, res) {
         time: new Date()
     });
 
-    scan.save(function (err, savedScan) {
+    scan.save(function (err) {
         if (err)
             return console.log("error saving scan");
 
         const filter = {_id: req.body.partId, equipment: req.body.equipmentId};
-        const update = {$set: {lastScan : savedScan._id}};
+        const update = {$set: {lastScan : scan._id}};
 
         Part.updateOne(filter, update, function(err, doc) {
             if (err)
