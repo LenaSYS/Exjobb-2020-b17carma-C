@@ -87,7 +87,7 @@ router.get('/equipment', function (req, res) {
         let part1 = new Part(
             {
                 _id: new mongoose.Types.ObjectId('5e5a7e6f682964512c73a48f'),
-                equipment: equipment._id,
+                equipment: equipment2._id,
                 identifier: 'Gears',
                 image: 'gears.jpg',
                 description: 'Gears used for something'
@@ -97,7 +97,7 @@ router.get('/equipment', function (req, res) {
         let part2 = new Part(
             {
                 _id: new mongoose.Types.ObjectId('5e5a7e6f682964512c73a490'),
-                equipment: equipment._id,
+                equipment: equipment2._id,
                 identifier: 'Hinge',
                 image: 'Hinge.jpg',
                 description: 'Another hinge.'
