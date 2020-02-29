@@ -38,13 +38,51 @@ router.get('/scans', function (req, res) {
     });
 });
 
+router.get('/scans/:equipmentId/:startDate/:endDate', function (req, res) {
+    mongoose.connect(process.env.MONGODB_CONNECTION_STRING, {useNewUrlParser: true, useUnifiedTopology: true});
+
+    let filter = {
+        equipment: req.params.equipment,
+        time: {
+            $gte: moment(req.params.startDate).toDate(),
+            $lte: moment(req.params.endDate).toDate()
+        },
+        status: false
+    };
+
+    Scan.find(filter).lean().exec(function (err, scans) {
+        let weeks = [];
+
+        scans.map(function (scan) {
+            let formattedWeek = moment(scan.time).week().toString();
+
+            if (weeks.filter(e => e.week === formattedWeek).length > 0) {
+                let week = weeks.find(x => x.week === formattedWeek);
+                week.value = week.value + 1;
+            } else {
+                weeks.push({
+                    week: formattedWeek,
+                    value: 1
+                })
+            }
+        });
+
+        let chartData = {
+            id: 'history',
+            data: weeks
+        };
+
+        return res.send(JSON.stringify(chartData));
+    });
+});
+
 router.get('/calendar', function (req, res) {
     mongoose.connect(process.env.MONGODB_CONNECTION_STRING, {useNewUrlParser: true, useUnifiedTopology: true});
 
     Scan.find().lean().exec(function (err, scans) {
         let days = [];
 
-        scans.map(function(scan, i) {
+        scans.map(function (scan) {
             let formattedDay = moment(scan.time).format('YYYY-MM-DD').toString();
 
             if (days.filter(e => e.day === formattedDay).length > 0) {
@@ -60,7 +98,6 @@ router.get('/calendar', function (req, res) {
         return res.send(JSON.stringify(days));
     });
 });
-
 
 
 module.exports = router;
