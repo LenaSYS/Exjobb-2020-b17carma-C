@@ -58,11 +58,11 @@ router.get('/scans/:equipmentId/:startDate/:endDate', function (req, res) {
 
             if (weeks.filter(e => e.week === formattedWeek).length > 0) {
                 let week = weeks.find(x => x.week === formattedWeek);
-                week.value = week.value + 1;
+                week.y = week.y + 1;
             } else {
                 weeks.push({
-                    week: formattedWeek,
-                    value: 1
+                    x: formattedWeek,
+                    y: 1
                 })
             }
         });
