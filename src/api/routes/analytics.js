@@ -46,50 +46,31 @@ router.get('/scans/:equipmentId/:startDate/:endDate', function (req, res) {
         time: {
             $gte: moment(req.params.startDate).toDate(),
             $lte: moment(req.params.endDate).toDate()
-        }
+        },
+        status: false
     };
 
     Scan.find(filter).sort({time: 'ascending'}).lean().exec(function (err, scans) {
-        let faultyWeeks = [];
-        let successWeeks = [];
+        let weeks = [];
 
         scans.map(function (scan) {
             let formattedWeek = moment(scan.time).day('Monday').format("DD/MM/YY");
 
-            if (scan.status) {
-                if (successWeeks.filter(e => e.x === formattedWeek).length > 0) {
-                    let week = successWeeks.find(week => week.x === formattedWeek);
-                    week.y = week.y + 1;
-                } else {
-                    successWeeks.push({
-                        x: formattedWeek,
-                        y: 1
-                    })
-                }
+            if (weeks.filter(e => e.x === formattedWeek).length > 0) {
+                let week = weeks.find(week => week.x === formattedWeek);
+                week.y = week.y + 1;
             } else {
-                if (faultyWeeks.filter(e => e.x === formattedWeek).length > 0) {
-                    let week = faultyWeeks.find(week => week.x === formattedWeek);
-                    week.y = week.y + 1;
-                } else {
-                    faultyWeeks.push({
-                        x: formattedWeek,
-                        y: 1
-                    })
-                }
+                weeks.push({
+                    x: formattedWeek,
+                    y: 1
+                })
             }
-
         });
 
-        let chartData = [
-            {
-                id: 'Faults',
-                data: faultyWeeks
-            },
-            {
-                id: 'Normal',
-                data: successWeeks
-            }
-        ];
+        let chartData = {
+            id: 'Faults',
+            data: weeks
+        };
 
         return res.send(JSON.stringify(chartData));
     });
