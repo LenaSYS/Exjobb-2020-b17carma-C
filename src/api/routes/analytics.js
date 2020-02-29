@@ -50,7 +50,7 @@ router.get('/scans/:equipmentId/:startDate/:endDate', function (req, res) {
         status: false
     };
 
-    Scan.find(filter).lean().exec(function (err, scans) {
+    Scan.find(filter).sort({time: 'ascending'}).lean().exec(function (err, scans) {
         let weeks = [];
 
         scans.map(function (scan) {
