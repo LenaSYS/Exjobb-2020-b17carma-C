@@ -99,7 +99,7 @@ router.get('/scans', function (req, res) {
             equipmentId: '5e53f1c36c7df42438366bde',
             partId: '5e53f1c36c7df42438366be0',
             status: Math.random() >= 0.5,
-            time: randomDate(new Date(2020, 1), new Date(2020, 7), 0, 23)
+            time: randomDate(new Date(2020, 0), new Date(2020, 11), 0, 23)
         });
 
         scan.save(function (err) {
