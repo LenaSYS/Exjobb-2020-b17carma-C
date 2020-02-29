@@ -48,7 +48,7 @@ router.get('/equipment', function (req, res) {
                 equipment: equipment._id,
                 identifier: 'Hinge',
                 image: 'hinge.jpg',
-                description: 'A very important part which has to be carefully inspected'
+                description: 'A hinge used in some sort of process, very important part which has to be carefully inspected'
             }
         );
 
@@ -75,10 +75,45 @@ router.get('/equipment', function (req, res) {
 
     let equipment2 = new Equipment(
         {
-            _id: new mongoose.Types.ObjectId('5e53f1c36c7df42438366bde'),
-            identifier: 'LG932-A',
-            image: 'machine.jpg',
+            _id: new mongoose.Types.ObjectId('5e5a7e6f682964512c73a48e'),
+            identifier: 'Binning Machine',
+            image: 'machine2.jpg',
         });
+
+    equipment2.save(function (err) {
+        if (err)
+            return console.log("error saving sample equipment " + err);
+
+        let part1 = new Part(
+            {
+                _id: new mongoose.Types.ObjectId('5e5a7e6f682964512c73a48f'),
+                equipment: equipment._id,
+                identifier: 'Gears',
+                image: 'gears.jpg',
+                description: 'Gears used for something'
+            }
+        );
+
+        let part2 = new Part(
+            {
+                _id: new mongoose.Types.ObjectId('5e5a7e6f682964512c73a490'),
+                equipment: equipment._id,
+                identifier: 'Hinge',
+                image: 'Hinge.jpg',
+                description: 'Another hinge.'
+            }
+        );
+
+        part1.save(function (err) {
+            if (err)
+                return console.log("error saving sample equipment " + err)
+        });
+
+        part2.save(function (err) {
+            if (err)
+                return console.log("error saving sample equipment " + err)
+        });
+    });
 
     return res.send({"status": "created"});
 });
@@ -96,7 +131,7 @@ router.get('/scans', function (req, res) {
     let i;
     for (i=0;i<1000;i++) {
         let scan = new Scan({
-            equipmentId: '5e53f1c36c7df42438366bde',
+            equipmentId: Math.random() >= 0.5 ? '5e5a7e6f682964512c73a48e' : '5e53f1c36c7df42438366bde',
             partId: '5e53f1c36c7df42438366be0',
             status: Math.random() >= 0.5,
             time: randomDate(new Date(2020, 0), new Date(2020, 11), 0, 23)

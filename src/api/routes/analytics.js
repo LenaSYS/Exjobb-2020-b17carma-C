@@ -54,7 +54,7 @@ router.get('/scans/:equipmentId/:startDate/:endDate', function (req, res) {
         let weeks = [];
 
         scans.map(function (scan) {
-            let formattedWeek = moment(scan.time).week().toString();
+            let formattedWeek = moment(scan.time).format("DD/MM/YY");
 
             if (weeks.filter(e => e.x === formattedWeek).length > 0) {
                 let week = weeks.find(week => week.x === formattedWeek);
