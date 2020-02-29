@@ -42,7 +42,7 @@ router.get('/scans/:equipmentId/:startDate/:endDate', function (req, res) {
     mongoose.connect(process.env.MONGODB_CONNECTION_STRING, {useNewUrlParser: true, useUnifiedTopology: true});
 
     let filter = {
-        equipment: req.params.equipmentId,
+        equipmentId: req.params.equipmentId,
         time: {
             $gte: moment(req.params.startDate).toDate(),
             $lte: moment(req.params.endDate).toDate()
