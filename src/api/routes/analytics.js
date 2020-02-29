@@ -56,8 +56,8 @@ router.get('/scans/:equipmentId/:startDate/:endDate', function (req, res) {
         scans.map(function (scan) {
             let formattedWeek = moment(scan.time).week().toString();
 
-            if (weeks.filter(e => e.week === formattedWeek).length > 0) {
-                let week = weeks.find(x => x.week === formattedWeek);
+            if (weeks.filter(e => e.x === formattedWeek).length > 0) {
+                let week = weeks.find(week => week.x === formattedWeek);
                 week.y = week.y + 1;
             } else {
                 weeks.push({
@@ -68,7 +68,7 @@ router.get('/scans/:equipmentId/:startDate/:endDate', function (req, res) {
         });
 
         let chartData = {
-            id: 'history',
+            id: 'Faults',
             data: weeks
         };
 
