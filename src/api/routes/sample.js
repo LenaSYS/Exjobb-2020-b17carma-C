@@ -86,25 +86,35 @@ router.get('/equipment', function (req, res) {
 router.get('/scans', function (req, res) {
     mongoose.connect(process.env.MONGODB_CONNECTION_STRING, {useNewUrlParser: true, useUnifiedTopology: true});
 
-    let scan = new Scan({
-        equipmentId: '5e53f1c36c7df42438366bde',
-        partId: '5e53f1c36c7df42438366be0',
-        status: true,
-        time: new Date()
-    });
+    function randomDate(start, end, startHour, endHour) {
+        let date = new Date(+start + Math.random() * (end - start));
+        let hour = startHour + Math.random() * (endHour - startHour) | 0;
+        date.setHours(hour);
+        return date;
+    }
 
-    scan.save(function (err) {
-        if (err)
-            return console.log("error saving sample equipment");
-
-        const filter = {_id: scan.partId, equipment: scan.equipmentId};
-        const update = {lastScan: scan._id};
-
-        Part.updateOne(filter, update, function(err, doc) {
-            if (err)
-                console.log(err);
+    let i;
+    for (i=0;i<1000;i++) {
+        let scan = new Scan({
+            equipmentId: '5e53f1c36c7df42438366bde',
+            partId: '5e53f1c36c7df42438366be0',
+            status: Math.random() >= 0.5,
+            time: randomDate(new Date(2020, 1), new Date(2020, 7), 0, 23)
         });
-    });
+
+        scan.save(function (err) {
+            if (err)
+                return console.log("error saving sample equipment");
+
+            const filter = {_id: scan.partId, equipment: scan.equipmentId};
+            const update = {lastScan: scan._id};
+
+            Part.updateOne(filter, update, function(err, doc) {
+                if (err)
+                    console.log(err);
+            });
+        });
+    }
 
     return res.send({"status": "created"});
 });
