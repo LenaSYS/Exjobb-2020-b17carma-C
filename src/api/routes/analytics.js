@@ -41,6 +41,9 @@ router.get('/scans', function (req, res) {
 router.get('/scans/:equipmentId/:startDate/:endDate', function (req, res) {
     mongoose.connect(process.env.MONGODB_CONNECTION_STRING, {useNewUrlParser: true, useUnifiedTopology: true});
 
+    let startDate = moment(req.params.startDate);
+    let endDate = moment(req.params.endDate);
+
     let filter = {
         equipmentId: req.params.equipmentId,
         time: {
@@ -50,21 +53,24 @@ router.get('/scans/:equipmentId/:startDate/:endDate', function (req, res) {
         status: false
     };
 
+    let weeks = [];
+
+    for (let m = moment(startDate); m.isBefore(endDate); m.add(1, 'weeks')) {
+        let formattedWeek = m.day('Monday').format("DD/MM/YY");
+
+        weeks.push({
+            x: formattedWeek,
+            y: 0
+        })
+    }
+
     Scan.find(filter).sort({time: 'ascending'}).lean().exec(function (err, scans) {
-        let weeks = [];
 
         scans.map(function (scan) {
             let formattedWeek = moment(scan.time).day('Monday').format("DD/MM/YY");
 
-            if (weeks.filter(e => e.x === formattedWeek).length > 0) {
-                let week = weeks.find(week => week.x === formattedWeek);
-                week.y = week.y + 1;
-            } else {
-                weeks.push({
-                    x: formattedWeek,
-                    y: 1
-                })
-            }
+            let week = weeks.find(week => week.x === formattedWeek);
+            week.y = week.y + 1;
         });
 
         let chartData = {
