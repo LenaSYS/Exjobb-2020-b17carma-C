@@ -43,10 +43,10 @@ router.get('/:equipmentId', function (req, res) {
     });
 });
 
-router.get('/:equipmentId/:partId', function (req, res) {
+router.get('/:equipmentId/:partId/:limit', function (req, res) {
     mongoose.connect(process.env.MONGODB_CONNECTION_STRING, {useNewUrlParser: true, useUnifiedTopology: true});
 
-    Scan.find({equipmentId: req.params.equipmentId, partId: req.params.partId}).sort({time: 'descending'}).exec(function (err, scans) {
+    Scan.find({equipmentId: req.params.equipmentId, partId: req.params.partId}).sort({time: 'descending'}).limit().exec(function (err, scans) {
         if (scans == null)
             return res.send([{}]);
 

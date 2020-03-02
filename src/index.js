@@ -14,6 +14,11 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+app.use(function (err, req, res, next) {
+    console.error(err.stack);
+    res.status(500).send('Internal server error')
+});
+
 app.use('/equipment', equipment);
 app.use('/parts', parts);
 app.use('/scan', scan);
