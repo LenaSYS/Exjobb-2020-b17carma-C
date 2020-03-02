@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 
-const Schema = mongoose.Schema;
+const Schema =  mongoose.Schema;
 
-let scanSchema = mongoose.Schema({
+let scanSchema = new mongoose.Schema({
     equipmentId: {type: Schema.Types.ObjectId, ref: 'Equipment', required: true},
     partId: {type: Schema.Types.ObjectId, ref: 'Part', required: true},
     status: {type: Boolean, required: true},

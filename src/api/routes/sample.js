@@ -78,6 +78,7 @@ router.get('/equipment', function (req, res) {
                     equipment: part1.equipment,
                     part: part1._id,
                     identifier: 'Step 1',
+                    order: 0,
                     image: 'machine.jpg',
                     description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex, sit amet blandit leo lobortis eget.'
                 });
@@ -88,6 +89,7 @@ router.get('/equipment', function (req, res) {
                     equipment: part1.equipment,
                     part: part1._id,
                     identifier: 'Step 2',
+                    order: 1,
                     description: 'Remove the lid, inspect oil inside the container, bla bla'
                 });
 

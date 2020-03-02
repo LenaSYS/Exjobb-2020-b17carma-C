@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-let partSchema = mongoose.Schema({
+let partSchema = new mongoose.Schema({
     equipment: {type: mongoose.Schema.Types.ObjectId, ref: 'Equipment', required: true},
     identifier: {type: String, required: true},
     image: {type: String, required: true},

@@ -56,7 +56,7 @@ router.get('/:equipmentId/:partId', function (req, res) {
 router.get('/:equipmentId/:partId/steps', function (req, res) {
     mongoose.connect(process.env.MONGODB_CONNECTION_STRING, {useNewUrlParser: true, useUnifiedTopology: true});
 
-    PartStep.find({equipment: req.params.equipmentId, part: req.params.partId}).lean().exec(function (err, steps) {
+    PartStep.find({equipment: req.params.equipmentId, part: req.params.partId}).sort('order').lean().exec(function (err, steps) {
         if (steps == null)
             return res.send([]);
 
