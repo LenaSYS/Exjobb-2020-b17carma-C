@@ -42,7 +42,7 @@ router.get('/:equipmentId/:partId', function (req, res) {
     Part.findOne({
         equipment: req.params.equipmentId,
         _id: req.params.partId
-    }).populate('lastScan').lean().exec(function (err, part) {
+    }).populate('lastScan').populate('equipment').lean().exec(function (err, part) {
         if (part == null)
             return res.send({});
 
