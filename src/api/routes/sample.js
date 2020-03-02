@@ -16,6 +16,11 @@ router.get('/reset', function (req, res) {
             console.log(err);
     });
 
+    PartStep.deleteMany({}, function (err) {
+        if (err)
+            console.log(err);
+    });
+
     Part.deleteMany({}, function (err) {
         if (err)
             console.log(err);

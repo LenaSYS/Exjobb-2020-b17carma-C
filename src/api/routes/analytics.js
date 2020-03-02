@@ -65,7 +65,6 @@ router.get('/scans/:equipmentId/:startDate/:endDate', function (req, res) {
     }
 
     Scan.find(filter).sort({time: 'ascending'}).lean().exec(function (err, scans) {
-
         scans.map(function (scan) {
             let formattedWeek = moment(scan.time).day('Monday').format("DD/MM/YY");
 
