@@ -28,7 +28,7 @@ router.get('/:equipmentId', function (req, res) {
 
     Part.find({equipment: req.params.equipmentId}).lean().populate('lastScan').exec(function (err, parts) {
         if (parts == null)
-            return res.send({});
+            return res.send([]);
 
         addScanInfo(parts);
 
