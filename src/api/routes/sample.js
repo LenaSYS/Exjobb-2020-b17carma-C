@@ -5,6 +5,7 @@ const router = express.Router();
 
 let Equipment = require("../mongodb/schema/Equipment");
 let Part = require("../mongodb/schema/Part");
+let PartStep = require("../mongodb/schema/PartStep");
 let Scan = require("../mongodb/schema/Scan");
 
 router.get('/reset', function (req, res) {
@@ -64,7 +65,36 @@ router.get('/equipment', function (req, res) {
 
         part1.save(function (err) {
             if (err)
-                return console.log("error saving sample equipment " + err)
+                return console.log("error saving sample equipment " + err);
+
+            let partStep = new PartStep(
+                {
+                    _id: new mongoose.Types.ObjectId('5e5cec8a31119e3070b939fd'),
+                    equipment: part1.equipment,
+                    part: part1._id,
+                    identifier: 'Step 1',
+                    image: 'machine.jpg',
+                    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex, sit amet blandit leo lobortis eget.'
+                });
+
+            let partStep2 = new PartStep(
+                {
+                    _id: new mongoose.Types.ObjectId('5e5cec8a31119e3070b93a00'),
+                    equipment: part1.equipment,
+                    part: part1._id,
+                    identifier: 'Step 2',
+                    description: 'Remove the lid, inspect oil inside the container, bla bla'
+                });
+
+            partStep.save(function (err) {
+                if (err)
+                    return console.log("error saving sample equipment " + err)
+            });
+
+            partStep2.save(function (err) {
+                if (err)
+                    return console.log("error saving sample equipment " + err)
+            });
         });
 
         part2.save(function (err) {

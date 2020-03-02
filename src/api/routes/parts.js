@@ -5,6 +5,7 @@ const moment = require('moment-timezone');
 const router = express.Router();
 
 const Part = require("../mongodb/schema/Part");
+const PartStep = require("../mongodb/schema/PartStep");
 
 function addScanInfo(parts) {
     parts.forEach(function (part) {
@@ -49,6 +50,17 @@ router.get('/:equipmentId/:partId', function (req, res) {
         addPartScanInfo(part);
 
         return res.send(JSON.stringify(part));
+    });
+});
+
+router.get('/:equipmentId/:partId/steps', function (req, res) {
+    mongoose.connect(process.env.MONGODB_CONNECTION_STRING, {useNewUrlParser: true, useUnifiedTopology: true});
+
+    PartStep.find({equipment: req.params.equipmentId, part: req.params.partId}).lean().exec(function (err, steps) {
+        if (steps == null)
+            return res.send([]);
+
+        return res.send(JSON.stringify(steps));
     });
 });
 
