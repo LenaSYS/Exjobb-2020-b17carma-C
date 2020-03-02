@@ -131,7 +131,7 @@ router.get('/scans', function (req, res) {
     let i;
     for (i=0;i<1000;i++) {
         let scan = new Scan({
-            equipmentId: Math.random() >= 0.5 ? '5e5a7e6f682964512c73a48e' : '5e53f1c36c7df42438366bde',
+            equipmentId: '5e53f1c36c7df42438366bde',
             partId: '5e53f1c36c7df42438366be0',
             status: Math.random() >= 0.5,
             time: randomDate(new Date(2020, 0), new Date(2020, 11), 0, 23)
