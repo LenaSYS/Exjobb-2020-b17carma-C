@@ -50,15 +50,20 @@ router.get('/scans/:equipmentId/:startDate/:endDate', function (req, res) {
             $gte: moment(req.params.startDate).toDate(),
             $lte: moment(req.params.endDate).toDate()
         },
-        status: false
     };
 
     let weeks = [];
+    let weeksSuccess = [];
 
     for (let m = moment(startDate); m.isBefore(endDate); m.add(1, 'weeks')) {
         let formattedWeek = m.day('Monday').format("DD/MM/YY");
 
         weeks.push({
+            x: formattedWeek,
+            y: 0
+        });
+
+        weeksSuccess.push({
             x: formattedWeek,
             y: 0
         })
@@ -67,8 +72,8 @@ router.get('/scans/:equipmentId/:startDate/:endDate', function (req, res) {
     Scan.find(filter).sort({time: 'ascending'}).lean().exec(function (err, scans) {
         scans.map(function (scan) {
             let formattedWeek = moment(scan.time).day('Monday').format("DD/MM/YY");
+            let week = scan.status ? weeksSuccess.find(week => week.x === formattedWeek) : weeks.find(week => week.x === formattedWeek);
 
-            let week = weeks.find(week => week.x === formattedWeek);
             week.y = week.y + 1;
         });
 
@@ -77,7 +82,12 @@ router.get('/scans/:equipmentId/:startDate/:endDate', function (req, res) {
             data: weeks
         };
 
-        return res.send(JSON.stringify(chartData));
+        let successData = {
+            id: 'Normal',
+            data: weeksSuccess
+        };
+
+        return res.send(JSON.stringify([chartData, successData]));
     });
 });
 
