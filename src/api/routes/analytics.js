@@ -4,8 +4,6 @@ const moment = require('moment');
 
 const router = express.Router();
 
-let Equipment = require("../mongodb/schema/Equipment");
-let Part = require("../mongodb/schema/Part");
 let Scan = require("../mongodb/schema/Scan");
 
 router.get('/stats', function (req, res) {
@@ -52,13 +50,13 @@ router.get('/scans/:equipmentId/:startDate/:endDate', function (req, res) {
         },
     };
 
-    let weeks = [];
+    let weeksFaulty = [];
     let weeksSuccess = [];
 
     for (let m = moment(startDate); m.isBefore(endDate); m.add(1, 'weeks')) {
         let formattedWeek = m.day('Monday').format("DD/MM/YY");
 
-        weeks.push({
+        weeksFaulty.push({
             x: formattedWeek,
             y: 0
         });
@@ -72,14 +70,14 @@ router.get('/scans/:equipmentId/:startDate/:endDate', function (req, res) {
     Scan.find(filter).sort({time: 'ascending'}).lean().exec(function (err, scans) {
         scans.map(function (scan) {
             let formattedWeek = moment(scan.time).day('Monday').format("DD/MM/YY");
-            let week = scan.status ? weeksSuccess.find(week => week.x === formattedWeek) : weeks.find(week => week.x === formattedWeek);
+            let week = scan.status ? weeksSuccess.find(week => week.x === formattedWeek) : weeksFaulty.find(week => week.x === formattedWeek);
 
             week.y = week.y + 1;
         });
 
-        let chartData = {
+        let failureData = {
             id: 'Faults',
-            data: weeks
+            data: weeksFaulty
         };
 
         let successData = {
@@ -87,7 +85,7 @@ router.get('/scans/:equipmentId/:startDate/:endDate', function (req, res) {
             data: weeksSuccess
         };
 
-        return res.send(JSON.stringify([chartData, successData]));
+        return res.send(JSON.stringify([successData, failureData]));
     });
 });
 

@@ -4,8 +4,8 @@ const mongoose = require('mongoose');
 const router = express.Router();
 
 let Equipment = require("../mongodb/schema/Equipment");
-let Part = require("../mongodb/schema/Part");
-let PartStep = require("../mongodb/schema/PartStep");
+let Component = require("../mongodb/schema/Component");
+let ComponentStep = require("../mongodb/schema/ComponentStep");
 let Scan = require("../mongodb/schema/Scan");
 
 router.get('/reset', function (req, res) {
@@ -16,12 +16,12 @@ router.get('/reset', function (req, res) {
             console.log(err);
     });
 
-    PartStep.deleteMany({}, function (err) {
+    ComponentStep.deleteMany({}, function (err) {
         if (err)
             console.log(err);
     });
 
-    Part.deleteMany({}, function (err) {
+    Component.deleteMany({}, function (err) {
         if (err)
             console.log(err);
     });
@@ -48,63 +48,63 @@ router.get('/equipment', function (req, res) {
         if (err)
             return console.log("error saving sample equipment " + err);
 
-        let part1 = new Part(
+        let component1 = new Component(
             {
                 _id: new mongoose.Types.ObjectId('5e53f1c36c7df42438366be0'),
                 equipment: equipment._id,
                 identifier: 'Hinge',
                 image: 'hinge.jpg',
-                description: 'A hinge used in some sort of process, very important part which has to be carefully inspected'
+                description: 'A hinge used in some sort of process, very important component which has to be carefully inspected'
             }
         );
 
-        let part2 = new Part(
+        let component2 = new Component(
             {
                 _id: new mongoose.Types.ObjectId('5e53f1c36c7df42438366be1'),
                 equipment: equipment._id,
                 identifier: 'Bearings',
                 image: 'bearings.jpg',
-                description: 'Some important part. Pay attention to xyz when inspecting it.'
+                description: 'Some important component. Pay attention to xyz when inspecting it.'
             }
         );
 
-        part1.save(function (err) {
+        component1.save(function (err) {
             if (err)
                 return console.log("error saving sample equipment " + err);
 
-            let partStep = new PartStep(
+            let componentStep = new ComponentStep(
                 {
                     _id: new mongoose.Types.ObjectId('5e5cec8a31119e3070b939fd'),
-                    equipment: part1.equipment,
-                    part: part1._id,
+                    equipment: component1.equipment,
+                    component: component1._id,
                     identifier: 'Step 1',
                     order: 0,
                     image: 'machine.jpg',
                     description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex, sit amet blandit leo lobortis eget.'
                 });
 
-            let partStep2 = new PartStep(
+            let componentStep1 = new ComponentStep(
                 {
                     _id: new mongoose.Types.ObjectId('5e5cec8a31119e3070b93a00'),
-                    equipment: part1.equipment,
-                    part: part1._id,
+                    equipment: component1.equipment,
+                    component: component1._id,
                     identifier: 'Step 2',
                     order: 1,
                     description: 'Remove the lid, inspect oil inside the container, bla bla'
                 });
 
-            partStep.save(function (err) {
+            componentStep.save(function (err) {
                 if (err)
                     return console.log("error saving sample equipment " + err)
             });
 
-            partStep2.save(function (err) {
+            componentStep1.save(function (err) {
                 if (err)
                     return console.log("error saving sample equipment " + err)
             });
         });
 
-        part2.save(function (err) {
+        component2.save(function (err) {
             if (err)
                 return console.log("error saving sample equipment " + err)
         });
@@ -121,7 +121,7 @@ router.get('/equipment', function (req, res) {
         if (err)
             return console.log("error saving sample equipment " + err);
 
-        let part1 = new Part(
+        let component1 = new Component(
             {
                 _id: new mongoose.Types.ObjectId('5e5a7e6f682964512c73a48f'),
                 equipment: equipment2._id,
@@ -131,7 +131,7 @@ router.get('/equipment', function (req, res) {
             }
         );
 
-        let part2 = new Part(
+        let component2 = new Component(
             {
                 _id: new mongoose.Types.ObjectId('5e5a7e6f682964512c73a490'),
                 equipment: equipment2._id,
@@ -141,12 +141,12 @@ router.get('/equipment', function (req, res) {
             }
         );
 
-        part1.save(function (err) {
+        component1.save(function (err) {
             if (err)
                 return console.log("error saving sample equipment " + err)
         });
 
-        part2.save(function (err) {
+        component2.save(function (err) {
             if (err)
                 return console.log("error saving sample equipment " + err)
         });
@@ -169,7 +169,7 @@ router.get('/scans', function (req, res) {
     for (i=0;i<1000;i++) {
         let scan = new Scan({
             equipmentId: '5e53f1c36c7df42438366bde',
-            partId: '5e53f1c36c7df42438366be0',
+            componentId: '5e53f1c36c7df42438366be0',
             status: Math.random() >= 0.5,
             time: randomDate(new Date(2020, 0), new Date(2020, 11), 0, 23)
         });
@@ -178,10 +178,10 @@ router.get('/scans', function (req, res) {
             if (err)
                 return console.log("error saving sample equipment");
 
-            const filter = {_id: scan.partId, equipment: scan.equipmentId};
+            const filter = {_id: scan.componentId, equipment: scan.equipmentId};
             const update = {lastScan: scan._id};
 
-            Part.updateOne(filter, update, function(err, doc) {
+            Component.updateOne(filter, update, function(err, doc) {
                 if (err)
                     console.log(err);
             });

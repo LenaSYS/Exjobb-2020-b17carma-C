@@ -3,15 +3,15 @@ const mongoose = require('mongoose');
 const router = express.Router();
 
 let Scan = require("../mongodb/schema/Scan");
-let Part = require("../mongodb/schema/Part");
+let Component = require("../mongodb/schema/Component");
 
 router.post('/', function (req, res) {
     mongoose.connect(process.env.MONGODB_CONNECTION_STRING, {useNewUrlParser: true, useUnifiedTopology: true});
-    console.log("Saved scan. Equipment Id: " + req.body.equipmentId + ", Part Id: " + req.body.partId + ", Status: " + req.body.status);
+    console.log("Saved scan. Equipment Id: " + req.body.equipmentId + ", Component Id: " + req.body.componentId + ", Status: " + req.body.status);
 
     let scanResult = new Scan({
         equipmentId: req.body.equipmentId,
-        partId: req.body.partId,
+        componentId: req.body.componentId,
         status: req.body.status,
         time: new Date()
     });
@@ -20,10 +20,10 @@ router.post('/', function (req, res) {
         if (err)
             return console.log("error saving scan");
 
-        const filter = {_id: req.body.partId, equipment: req.body.equipmentId};
+        const filter = {_id: req.body.componentId, equipment: req.body.equipmentId};
         const update = {lastScan : scanResult._id};
 
-        Part.updateOne(filter, update, function(err, doc) {
+        Component.updateOne(filter, update, function(err, doc) {
             if (err)
                 console.log(err);
         });
@@ -43,10 +43,10 @@ router.get('/:equipmentId', function (req, res) {
     });
 });
 
-router.get('/:equipmentId/:partId/:limit', function (req, res) {
+router.get('/:equipmentId/:componentId/:limit', function (req, res) {
     mongoose.connect(process.env.MONGODB_CONNECTION_STRING, {useNewUrlParser: true, useUnifiedTopology: true});
 
-    Scan.find({equipmentId: req.params.equipmentId, partId: req.params.partId}).limit(parseInt(req.params.limit)).sort({time: 'descending'}).exec(function (err, scans) {
+    Scan.find({equipmentId: req.params.equipmentId, componentId: req.params.componentId}).limit(parseInt(req.params.limit)).sort({time: 'descending'}).exec(function (err, scans) {
         if (scans == null)
             return res.send([{}]);
 

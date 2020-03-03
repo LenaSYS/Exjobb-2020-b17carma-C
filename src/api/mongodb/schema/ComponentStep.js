@@ -1,14 +1,14 @@
 const mongoose = require('mongoose');
 
-let partStepSchema = new mongoose.Schema({
+let componentStepSchema = new mongoose.Schema({
     equipment: {type: mongoose.Schema.Types.ObjectId, ref: 'Equipment', required: true},
-    part: {type: mongoose.Schema.Types.ObjectId, ref: 'Part', required: true},
+    component: {type: mongoose.Schema.Types.ObjectId, ref: 'Component', required: true},
     identifier: {type: String, required: true},
     order: {type: Number, required: true},
     image: String,
     description: {type: String, required: true}
 });
 
-const Part = mongoose.model("PartStep", partStepSchema, "partsteps");
+const ComponentStep = mongoose.model("ComponentStep", componentStepSchema, "componentsteps");
 
-module.exports = Part;
+module.exports = ComponentStep;

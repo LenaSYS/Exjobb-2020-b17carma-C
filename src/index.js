@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const equipment = require('./api/routes/equipment');
-const parts = require('./api/routes/parts');
+const parts = require('./api/routes/components');
 const scan = require('./api/routes/scan');
 const analytics = require('./api/routes/analytics');
 const sample = require('./api/routes/sample');
@@ -20,7 +20,7 @@ app.use(function (err, req, res, next) {
 });
 
 app.use('/equipment', equipment);
-app.use('/parts', parts);
+app.use('/components', parts);
 app.use('/scan', scan);
 app.use('/analytics', analytics);
 app.use('/sample', sample);
