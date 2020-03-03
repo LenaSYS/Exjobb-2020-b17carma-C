@@ -54,7 +54,10 @@ router.get('/equipment', function (req, res) {
                 equipment: equipment._id,
                 identifier: 'Hinge',
                 image: 'hinge.jpg',
-                description: 'A hinge used in some sort of process, very important component which has to be carefully inspected'
+                description: 'A hinge used in some sort of process, very important component which has to be carefully inspected',
+                frequency: 4,
+                frequencyType: 2,
+                frequencyDays: [6, 7]
             }
         );
 
@@ -64,7 +67,10 @@ router.get('/equipment', function (req, res) {
                 equipment: equipment._id,
                 identifier: 'Bearings',
                 image: 'bearings.jpg',
-                description: 'Some important component. Pay attention to xyz when inspecting it.'
+                description: 'Some important component. Pay attention to xyz when inspecting it.',
+                frequency: 1,
+                frequencyType: 1,
+                frequencyDays: [1]
             }
         );
 
@@ -90,7 +96,7 @@ router.get('/equipment', function (req, res) {
                     component: component1._id,
                     identifier: 'Step 2',
                     order: 1,
-                    description: 'Remove the lid, inspect oil inside the container, bla bla'
+                    description: 'Remove the lid, inspect oil inside the container, bla bla',
                 });
 
             componentStep.save(function (err) {
@@ -127,7 +133,10 @@ router.get('/equipment', function (req, res) {
                 equipment: equipment2._id,
                 identifier: 'Gears',
                 image: 'gears.jpg',
-                description: 'Gears used for something'
+                description: 'Gears used for something',
+                frequency: 2,
+                frequencyType: 1,
+                frequencyDays: [2, 3, 6]
             }
         );
 
@@ -137,7 +146,10 @@ router.get('/equipment', function (req, res) {
                 equipment: equipment2._id,
                 identifier: 'Hinge',
                 image: 'Hinge.jpg',
-                description: 'Another hinge.'
+                description: 'Another hinge.',
+                frequency: 3,
+                frequencyType: 2,
+                frequencyDays: [2, 3, 6]
             }
         );
 
