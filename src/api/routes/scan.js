@@ -61,7 +61,7 @@ router.get('/:equipmentId/:componentId/:limit', function (req, res) {
 router.get("/required/:equipmentId/", function (req, res) {
     mongoose.connect(process.env.MONGODB_CONNECTION_STRING, {useNewUrlParser: true, useUnifiedTopology: true});
 
-    Component.find({equipment: req.params.equipmentId}).lean().exec(function (err, components) {
+    Component.find({equipment: req.params.equipmentId}).populate('lastScan').lean().exec(function (err, components) {
         let actionRequiredComponents = [];
 
         components.map(function (component, i) {
@@ -73,6 +73,8 @@ router.get("/required/:equipmentId/", function (req, res) {
             let currentDate = moment();
             let currentDay = currentDate.day();
             let earliestScanDate = moment(currentDate).subtract(1, frequencyTypeString);
+
+            let lastScanToday = component.lastScan !== undefined && moment(component.lastScan.time).isSame(currentDate, 'day');
 
             Scan.countDocuments(
                 {
@@ -87,9 +89,7 @@ router.get("/required/:equipmentId/", function (req, res) {
                 if (err)
                     return console.log('err: ' + err);
 
-                console.log("count: " + count + ", frequency: " + frequency + ", currentday: " + currentDay + ", days: " + frequencyDays);
-                if (count < frequency && (frequencyDays.length === 0 || frequencyDays.includes(currentDay))) {
-                    console.log("pushing");
+                if (count < frequency && !lastScanToday && (frequencyDays.length === 0 || frequencyDays.includes(currentDay))) {
                     actionRequiredComponents.push(component);
                 }
 
