@@ -55,9 +55,8 @@ router.get('/equipment', function (req, res) {
                 identifier: 'Hinge',
                 image: 'hinge.jpg',
                 description: 'A hinge used in some sort of process, very important component which has to be carefully inspected',
-                frequency: 4,
-                frequencyType: 2,
-                frequencyDays: [6, 7]
+                frequency: 1,
+                frequencyType: 0,
             }
         );
 
