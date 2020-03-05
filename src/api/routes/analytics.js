@@ -20,11 +20,22 @@ router.get('/stats', function (req, res) {
                 failureCount++;
         });
 
-        return res.send(JSON.stringify({
-            totalScans: scans.length,
-            successCount: successCount,
-            failureCount: failureCount
-        }));
+        const data = [
+            {
+                id: 'Normal',
+                label: 'Normal',
+                value: successCount,
+                color: "hsl(122, 39%, 49%)"
+            },
+            {
+                id: 'Faults',
+                label: 'Faults',
+                value: failureCount,
+                color: "hsl(4, 90%, 58%)"
+            }
+        ];
+
+        return res.send(JSON.stringify(data));
     });
 });
 
