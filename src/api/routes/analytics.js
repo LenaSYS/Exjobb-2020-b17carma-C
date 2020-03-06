@@ -4,7 +4,8 @@ const moment = require('moment');
 
 const router = express.Router();
 
-let Scan = require("../mongodb/schema/Scan");
+const Scan = require("../mongodb/schema/Scan");
+const Component = require("../mongodb/schema/Component");
 
 router.get('/stats', function (req, res) {
     mongoose.connect(process.env.MONGODB_CONNECTION_STRING, {useNewUrlParser: true, useUnifiedTopology: true});
@@ -123,5 +124,53 @@ router.get('/calendar', function (req, res) {
     });
 });
 
+router.get("/overall", function (req, res) {
+    mongoose.connect(process.env.MONGODB_CONNECTION_STRING, {useNewUrlParser: true, useUnifiedTopology: true});
+
+    Component.find().populate('equipment').lean().exec(function (err, components) {
+        let actionRequiredComponents = [];
+
+        let startDate = moment().startOf("month");
+        let endDate = moment().endOf("month");
+
+        for (let m = moment(startDate); m.isBefore(endDate); m.add(1, 'days')) {
+            components.map(function (component, i) {
+                let frequency = component.frequency;
+                let frequencyType = component.frequencyType;
+                let frequencyDays = component.frequencyDays;
+                let frequencyTypeString = frequencyType === 0 ? 'days' : frequencyType === 1 ? 'weeks' : frequencyType === 2 ? 'months' : frequencyType === 3 ? 'years' : null;
+
+                let currentDate = moment(m);
+                let currentDay = currentDate.day();
+                let earliestScanDate = moment(currentDate).subtract(1, frequencyTypeString);
+
+                let lastScanToday = component.lastScan !== undefined && moment(component.lastScan.time).isSame(currentDate, 'day');
+
+                Scan.countDocuments(
+                    {
+                        equipment: component.equipment,
+                        component: component._id,
+                        time: {
+                            $gte: moment(earliestScanDate).toDate(),
+                            $lte: moment(currentDate).toDate()
+                        },
+                    }
+                ).exec(function (err, count) {
+                    if (err)
+                        return console.log('err: ' + err);
+
+                    if (count < frequency && !lastScanToday && (frequencyDays.length === 0 || frequencyDays.includes(currentDay))) {
+                        console.log(currentDate.format("DD/MM/YYYY") + " - " + component.equipment.identifier + " - " + component.identifier);
+                        actionRequiredComponents.push(component);
+                    }
+
+                    if (i === components.length - 1 && !moment(currentDate).add(1, 'days').isBefore(moment(endDate))) {
+                        return res.send(JSON.stringify(actionRequiredComponents));
+                    }
+                });
+            });
+        }
+    });
+});
 
 module.exports = router;
