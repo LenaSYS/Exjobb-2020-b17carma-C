@@ -11,13 +11,18 @@ dotenv.config();
 
 const app = express();
 
-app.use(cors());
-app.use(express.json());
-
 app.use(function (err, req, res) {
     console.error(err.stack);
     res.status(500).send('Internal server error')
 });
+
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "https://api.carlmaier.se");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+});
+
+app.use(express.json());
 
 app.use('/equipment', equipment);
 app.use('/components', components);
