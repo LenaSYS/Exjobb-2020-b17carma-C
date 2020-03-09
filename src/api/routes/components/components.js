@@ -2,8 +2,11 @@ const express = require('express');
 const componentList = require("./componentlist");
 const componentInfo = require("./componentinfo");
 const componentSteps = require("./componentsteps");
+const cors = require('cors');
 
 const router = express.Router();
+
+router.options('*', cors());
 
 router.get('/:equipmentId', componentList);
 router.get('/:equipmentId/:componentId', componentInfo);

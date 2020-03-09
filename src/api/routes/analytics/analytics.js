@@ -4,8 +4,11 @@ const scans = require('./scans');
 const lineChart = require('./charts/linechart');
 const calendarChart = require('./charts/calendarchart');
 const overview = require('./overview');
+const cors = require('cors');
 
 const router = express.Router();
+
+router.options('*', cors());
 
 router.get('/stats', pieChart);
 router.get('/scans', scans);
