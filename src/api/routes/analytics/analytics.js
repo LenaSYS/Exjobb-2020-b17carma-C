@@ -1,15 +1,15 @@
 const express = require('express');
-const stats = require('./stats');
+const pieChart = require('./charts/piechart');
 const scans = require('./scans');
-const piechart = require('./charts/piechart');
+const lineChart = require('./charts/linechart');
 const calendarChart = require('./charts/calendarchart');
 const overview = require('./overview');
 
 const router = express.Router();
 
-router.get('/stats', stats);
+router.get('/stats', pieChart);
 router.get('/scans', scans);
-router.get('/scans/:equipmentId/:startDate/:endDate', piechart);
+router.get('/scans/:equipmentId/:startDate/:endDate', lineChart);
 router.get('/calendar', calendarChart);
 router.get("/overview", overview);
 
