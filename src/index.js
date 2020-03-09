@@ -11,13 +11,13 @@ dotenv.config();
 
 const app = express();
 
+app.use(cors());
+app.use(express.json());
+
 app.use(function (err, req, res) {
     console.error(err.stack);
     res.status(500).send('Internal server error')
 });
-
-app.use(cors());
-app.use(express.json());
 
 app.use('/equipment', equipment);
 app.use('/components', components);
