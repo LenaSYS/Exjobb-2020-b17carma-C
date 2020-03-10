@@ -13,6 +13,9 @@ function overview(req, res) {
         let startDate = moment(req.params.startDate);
         let endDate = moment(req.params.endDate);
 
+        console.log("Start Date: " + startDate.format());
+        console.log("End Date: " + endDate.format());
+
         Scan.find().exec( function (err, scans) {
             if (err)
                 return console.log(err);
