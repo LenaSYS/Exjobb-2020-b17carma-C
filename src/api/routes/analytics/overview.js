@@ -10,8 +10,8 @@ function overview(req, res) {
     Component.find().populate('equipment').lean().exec(function (err, components) {
         let actionRequiredComponents = [];
 
-        let startDate = moment(req.params.startDate).toDate();
-        let endDate = moment(req.params.endDate).toDate();
+        let startDate = moment(req.params.startDate);
+        let endDate = moment(req.params.endDate);
 
         Scan.find().exec( function (err, scans) {
             if (err)
