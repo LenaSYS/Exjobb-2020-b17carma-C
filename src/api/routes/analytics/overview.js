@@ -19,7 +19,7 @@ function overview(req, res) {
 
             for (let m = moment(startDate); m.isBefore(endDate); m.add(1, 'days')) {
                 let currentDate = moment(m);
-                let currentDay = currentDate.day();
+                let currentDay = currentDate.isoWeekday();
 
                 let saveObject = {
                     date: currentDate,
