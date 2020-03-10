@@ -11,6 +11,6 @@ router.get('/stats', pieChart);
 router.get('/scans', scans);
 router.get('/scans/:equipmentId/:startDate/:endDate', lineChart);
 router.get('/calendar', calendarChart);
-router.get("/overview", overview);
+router.get("/overview/:startDate/:endDate", overview);
 
 module.exports = router;
