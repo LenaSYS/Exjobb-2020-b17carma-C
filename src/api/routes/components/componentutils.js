@@ -1,4 +1,4 @@
-const moment = require('moment');
+const moment = require('moment-timezone');
 
 function addScanInfo(components) {
     components.forEach(function (component) {
