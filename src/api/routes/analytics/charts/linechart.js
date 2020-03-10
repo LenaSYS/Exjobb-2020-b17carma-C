@@ -6,14 +6,14 @@ const Scan = require("../../../mongodb/schema/Scan");
 function lineChart(req, res) {
     mongoose.connect(process.env.MONGODB_CONNECTION_STRING, {useNewUrlParser: true, useUnifiedTopology: true});
 
-    let startDate = moment(req.params.startDate);
-    let endDate = moment(req.params.endDate);
+    let startDate = moment(req.params.startDate).tz("Europe/Berlin");
+    let endDate = moment(req.params.endDate).tz("Europe/Berlin");
 
     let filter = {
         equipmentId: req.params.equipmentId,
         time: {
-            $gte: moment(req.params.startDate).toDate(),
-            $lte: moment(req.params.endDate).toDate()
+            $gte: moment(req.params.startDate).tz("Europe/Berlin").toDate(),
+            $lte: moment(req.params.endDate).tz("Europe/Berlin").toDate()
         },
     };
 

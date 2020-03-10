@@ -10,20 +10,15 @@ function overview(req, res) {
     Component.find().populate('equipment').lean().exec(function (err, components) {
         let actionRequiredComponents = [];
 
-        let startDate = moment(req.params.startDate);
-        let endDate = moment(req.params.endDate);
-
-        console.log("Start PARAMS: " + req.params.startDate);
-        console.log("End PARAMS: " + req.params.endDate);
-        console.log("Start Date: " + startDate.format());
-        console.log("End Date: " + endDate.format());
+        let startDate = moment(req.params.startDate).tz("Europe/Berlin");
+        let endDate = moment(req.params.endDate).tz("Europe/Berlin");
 
         Scan.find().exec( function (err, scans) {
             if (err)
                 return console.log(err);
 
             for (let m = moment(startDate); m.isBefore(endDate); m.add(1, 'days')) {
-                let currentDate = moment(m);
+                let currentDate = moment(m).tz("Europe/Berlin");
                 let currentDay = currentDate.isoWeekday();
                 console.log(currentDate.format("DD-MM-YY dddd - ISOWEEKDAY: " + currentDay + " NONISO: " + currentDate.day()));
 
@@ -39,7 +34,7 @@ function overview(req, res) {
                     let frequencyType = component.frequencyType;
                     let frequencyDays = component.frequencyDays;
                     let frequencyTypeString = frequencyType === 0 ? 'days' : frequencyType === 1 ? 'weeks' : frequencyType === 2 ? 'months' : frequencyType === 3 ? 'years' : null;
-                    let earliestScanDate = moment(currentDate).subtract(1, frequencyTypeString);
+                    let earliestScanDate = moment(currentDate).tz("Europe/Berlin").subtract(1, frequencyTypeString);
 
                     let dailyScan = scans.find(scan => scan.equipmentId.toString() === component.equipment._id.toString() && scan.componentId.toString() === component._id.toString() && moment(scan.time).isSame(currentDate, "day"));
                     let scanCount = scans.filter(x => x.equipmentId.toString() === component.equipment._id.toString() && x.componentId.toString() === component._id.toString() && x.time > earliestScanDate.toDate() && x.time < currentDate.toDate()).length;
