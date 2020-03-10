@@ -13,6 +13,8 @@ function overview(req, res) {
         let startDate = moment(req.params.startDate);
         let endDate = moment(req.params.endDate);
 
+        console.log("Start PARAMS: " + req.params.startDate);
+        console.log("End PARAMS: " + req.params.endDate);
         console.log("Start Date: " + startDate.format());
         console.log("End Date: " + endDate.format());
 
