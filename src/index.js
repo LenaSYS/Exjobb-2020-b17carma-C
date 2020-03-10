@@ -1,5 +1,3 @@
-import * as moment from "moment-timezone";
-
 const express = require('express');
 const cors = require('cors');
 const equipment = require('./api/routes/equipment/equipment');
@@ -8,6 +6,7 @@ const scan = require('./api/routes/scan/scan');
 const analytics = require('./api/routes/analytics/analytics');
 const sample = require('./api/routes/sample/sample');
 const dotenv = require('dotenv');
+const moment = require('moment-timezone');
 
 dotenv.config();
 moment.tz.setDefault("Europe/Berlin");
