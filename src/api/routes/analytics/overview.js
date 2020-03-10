@@ -28,7 +28,7 @@ function overview(req, res) {
 
                 actionRequiredComponents.push(saveObject);
 
-                components.map(function (component, i) {
+                components.map(function (component) {
                     let expectedCount = component.frequency;
                     let frequencyType = component.frequencyType;
                     let frequencyDays = component.frequencyDays;
@@ -47,12 +47,9 @@ function overview(req, res) {
 
                         saveObject.data.push(clonedComponent);
                     }
-
-                    if (i === components.length - 1 && !moment(currentDate).add(1, 'days').isBefore(moment(endDate))) {
-                        return res.send(JSON.stringify(actionRequiredComponents));
-                    }
                 });
             }
+            return res.send(JSON.stringify(actionRequiredComponents));
         });
     });
 }
