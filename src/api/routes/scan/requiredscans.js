@@ -15,19 +15,19 @@ function requiredScans(req, res) {
             let frequencyDays = component.frequencyDays;
             let frequencyTypeString = frequencyType === 0 ? 'days' : frequencyType === 1 ? 'weeks' : frequencyType === 2 ? 'months' : frequencyType === 3 ? 'years' : null;
 
-            let currentDate = moment().tz("Europe/Berlin");
+            let currentDate = moment();
             let currentDay = currentDate.isoWeekday();
-            let earliestScanDate = moment(currentDate).tz("Europe/Berlin").subtract(1, frequencyTypeString);
+            let earliestScanDate = moment(currentDate).subtract(1, frequencyTypeString);
 
-            let lastScanToday = component.lastScan !== undefined && moment(component.lastScan.time).tz("Europe/Berlin").isSame(currentDate, 'day');
+            let lastScanToday = component.lastScan !== undefined && moment(component.lastScan.time).isSame(currentDate, 'day');
 
             Scan.countDocuments(
                 {
                     equipment: req.params.equipmentId,
                     component: req.params.componentId,
                     time: {
-                        $gte: moment(earliestScanDate).tz("Europe/Berlin").toDate(),
-                        $lte: moment(currentDate).tz("Europe/Berlin").toDate()
+                        $gte: moment(earliestScanDate).toDate(),
+                        $lte: moment(currentDate).toDate()
                     },
                 }
             ).exec(function (err, count) {

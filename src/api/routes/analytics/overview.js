@@ -10,15 +10,15 @@ function overview(req, res) {
     Component.find().populate('equipment').lean().exec(function (err, components) {
         let actionRequiredComponents = [];
 
-        let startDate = moment(req.params.startDate).tz("Europe/Berlin");
-        let endDate = moment(req.params.endDate).tz("Europe/Berlin");
+        let startDate = moment(req.params.startDate);
+        let endDate = moment(req.params.endDate);
 
         Scan.find().exec( function (err, scans) {
             if (err)
                 return console.log(err);
 
             for (let m = moment(startDate); m.isBefore(endDate); m.add(1, 'days')) {
-                let currentDate = moment(m).tz("Europe/Berlin");
+                let currentDate = moment(m);
                 let currentDay = currentDate.isoWeekday();
                 console.log(currentDate.format("DD-MM-YY dddd - ISOWEEKDAY: " + currentDay + " NONISO: " + currentDate.day()));
 
