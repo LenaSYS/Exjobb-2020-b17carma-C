@@ -20,13 +20,17 @@ function pieChart(req, res) {
                 id: 'Normal',
                 label: 'Normal',
                 value: successCount,
-                color: "hsl(122, 39%, 49%)"
+                color: "hsl(122, 39%, 49%)",
+                legendFontColor: "#7F7F7F",
+                legendFontSize: 15,
             },
             {
                 id: 'Faults',
                 label: 'Faults',
                 value: failureCount,
-                color: "hsl(4, 90%, 58%)"
+                color: "hsl(4, 90%, 58%)",
+                legendFontColor: "#7F7F7F",
+                legendFontSize: 15
             }
         ];
 
