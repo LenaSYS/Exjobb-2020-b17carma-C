@@ -13,11 +13,11 @@ function requiredScans(req, res) {
             let frequency = component.frequency;
             let frequencyType = component.frequencyType;
             let frequencyDays = component.frequencyDays;
-            let frequencyTypeString = frequencyType === 0 ? 'days' : frequencyType === 1 ? 'weeks' : frequencyType === 2 ? 'months' : frequencyType === 3 ? 'years' : null;
+            let frequencyTypeString = frequencyType === 0 ? 'day' : frequencyType === 1 ? 'week' : frequencyType === 2 ? 'month' : frequencyType === 3 ? 'year' : null;
 
             let currentDate = moment();
             let currentDay = currentDate.isoWeekday();
-            let earliestScanDate = moment(currentDate).subtract(1, frequencyTypeString);
+            let earliestScanDate = moment(currentDate).startOf(frequencyTypeString);
 
             let lastScanToday = component.lastScan !== undefined && moment(component.lastScan.time).isSame(currentDate, 'day');
 
