@@ -34,10 +34,10 @@ function overview(req, res) {
                     let frequencyType = component.frequencyType;
                     let frequencyDays = component.frequencyDays;
                     let frequencyTypeString = frequencyType === 0 ? 'days' : frequencyType === 1 ? 'weeks' : frequencyType === 2 ? 'months' : frequencyType === 3 ? 'years' : null;
-                    let earliestScanDate = moment(currentDate).tz("Europe/Berlin").subtract(1, frequencyTypeString);
+                    let earliestScanDate = frequencyType === 0 ? moment(currentDate).startOf('day') : moment(currentDate).subtract(1, frequencyTypeString);
 
                     let dailyScan = scans.find(scan => scan.equipmentId.toString() === component.equipment._id.toString() && scan.componentId.toString() === component._id.toString() && moment(scan.time).isSame(currentDate, "day"));
-                    let scanCount = scans.filter(x => x.equipmentId.toString() === component.equipment._id.toString() && x.componentId.toString() === component._id.toString() && x.time > earliestScanDate.startOf('day').toDate() && x.time < currentDate.startOf('day').toDate()).length;
+                    let scanCount = scans.filter(x => x.equipmentId.toString() === component.equipment._id.toString() && x.componentId.toString() === component._id.toString() && x.time > earliestScanDate.toDate() && x.time < currentDate.toDate()).length;
 
                     if ((scanCount < expectedCount || dailyScan != null) && (frequencyDays.length === 0 || frequencyDays.includes(currentDay))) {
                         let clonedComponent = Object.assign({}, component);
