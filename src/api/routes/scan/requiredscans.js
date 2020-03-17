@@ -17,7 +17,7 @@ function requiredScans(req, res) {
 
             let currentDate = moment();
             let currentDay = currentDate.isoWeekday();
-            let earliestScanDate = moment(currentDate).subtract(1, frequencyTypeString);
+            let earliestScanDate = moment(currentDate).startOf('day').subtract(1, frequencyTypeString);
 
             let lastScanToday = component.lastScan !== undefined && moment(component.lastScan.time).isSame(currentDate, 'day');
 
