@@ -34,7 +34,7 @@ function overview(req, res) {
                     let frequencyType = component.frequencyType;
                     let frequencyDays = component.frequencyDays;
                     let frequencyTypeString = frequencyType === 0 ? 'day' : frequencyType === 1 ? 'week' : frequencyType === 2 ? 'month' : frequencyType === 3 ? 'year' : null;
-                    let earliestScanDate = moment.startOf(frequencyTypeString);
+                    let earliestScanDate = moment(currentDate).startOf(frequencyTypeString);
 
                     let dailyScan = scans.find(scan => scan.equipmentId.toString() === component.equipment._id.toString() && scan.componentId.toString() === component._id.toString() && moment(scan.time).isSame(currentDate, "day"));
                     let scanCount = scans.filter(x => x.equipmentId.toString() === component.equipment._id.toString() && x.componentId.toString() === component._id.toString() && x.time > earliestScanDate.toDate() && x.time < currentDate.toDate()).length;
