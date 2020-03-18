@@ -113,7 +113,7 @@ function equipment(req, res) {
                 _id: new mongoose.Types.ObjectId('5e5a7e6f682964512c73a490'),
                 equipment: equipment2._id,
                 identifier: 'Hinge',
-                image: 'Hinge.jpg',
+                image: 'hinge.jpg',
                 description: 'Another hinge.',
                 frequency: 3,
                 frequencyType: 2,
