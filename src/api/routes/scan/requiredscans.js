@@ -24,8 +24,8 @@ function requiredScans(req, res) {
 
             Scan.countDocuments(
                 {
-                    equipment: req.params.equipmentId,
-                    component: component._id,
+                    equipmentId: req.params.equipmentId,
+                    componentId: component._id,
                     time: {
                         $gte: moment(earliestScanDate).toDate(),
                         $lte: moment(currentDate).toDate()
