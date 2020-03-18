@@ -35,7 +35,10 @@ function requiredScans(req, res) {
                     return console.log('err: ' + err);
 
                 if (count < frequency && !lastScanToday && (frequencyDays.length === 0 || frequencyDays.includes(currentDay))) {
-                    actionRequiredComponents.push(component);
+                    let clonedComponent = Object.assign({}, component);
+
+                    actionRequiredComponents.push(clonedComponent);
+                    console.log(component.identifier + " - " + " requires scan. Expected: " + frequency + ", actual: " + count + ", within: " + frequencyTypeString);
                 }
 
                 if (i === components.length - 1) {
