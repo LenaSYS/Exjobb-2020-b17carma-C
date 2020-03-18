@@ -25,7 +25,7 @@ function requiredScans(req, res) {
             Scan.countDocuments(
                 {
                     equipment: req.params.equipmentId,
-                    component: req.params.componentId,
+                    component: component._id,
                     time: {
                         $gte: moment(earliestScanDate).toDate(),
                         $lte: moment(currentDate).toDate()
@@ -39,8 +39,8 @@ function requiredScans(req, res) {
                     let clonedComponent = Object.assign({}, component);
 
                     actionRequiredComponents.push(clonedComponent);
-                    console.log("Start Date: " + currentDate.format('DD-MM-YYYY'));
-                    console.log("End Date: " + earliestScanDate.format('DD-MM-YYYY'));
+                    console.log("Start Date: " + earliestScanDate.format('DD-MM-YYYY'));
+                    console.log("End Date: " + currentDate.format('DD-MM-YYYY'));
                     console.log(component.identifier + " - " + " requires scan. Expected: " + frequency + ", actual: " + count + ", within: " + frequencyTypeString);
                 }
 
