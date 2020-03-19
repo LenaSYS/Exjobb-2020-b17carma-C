@@ -30,8 +30,6 @@ function lineChart(req, res) {
     };
 
     Scan.find(filter).sort({time: 'ascending'}).lean().exec(function (err, scans) {
-        console.log("total scans: " + scans.length);
-
         for (let m = moment(startDate); m.isBefore(endDate); m.add(1, 'weeks')) {
             let currentDate = moment(m);
             let formattedWeek = m.day('Monday').format("DD/MM/YY");
@@ -39,8 +37,6 @@ function lineChart(req, res) {
             container.labels.push(formattedWeek);
 
             let matchingScans = scans.filter(x => moment(x.time).isSame(currentDate, 'week'));
-
-            console.log("matching scans: " + matchingScans.length);
 
             let numNormal = matchingScans.filter(scan => scan.status === true).length;
             let numFaulty = matchingScans.filter(scan => scan.status === false).length;
