@@ -36,10 +36,10 @@ function lineChart(req, res) {
 
             container.labels.push(formattedWeek);
 
-            let matchingScans = scans.find(x => moment(x.time).isSame(currentDate, 'week'));
+            let matchingScans = scans.filter(x => moment(x.time).isSame(currentDate, 'week'));
 
-            let numNormal = matchingScans.filter(scan => scan.status === true);
-            let numFaulty = matchingScans.filter(scan => scan.status === false);
+            let numNormal = matchingScans.filter(scan => scan.status === true).length;
+            let numFaulty = matchingScans.filter(scan => scan.status === false).length;
 
             container.datasets[0].data.push(numNormal);
             container.datasets[1].data.push(numFaulty);
