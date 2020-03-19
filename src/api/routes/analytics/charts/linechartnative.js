@@ -22,11 +22,11 @@ function lineChart(req, res) {
         datasets: [
             { //Normal
                 data: [],
-                color: (opacity = 1) => `rgba(232, 193, 160, ${opacity})`,
+                color: "(opacity = 1) => `rgba(232, 193, 160, ${opacity})`",
             },
             { //Faulty
                 data: [],
-                color: (opacity = 1) => `rgba(244, 117, 96, ${opacity})`,
+                color: "(opacity = 1) => `rgba(244, 117, 96, ${opacity})`",
             }
         ]
     };
