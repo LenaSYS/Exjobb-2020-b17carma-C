@@ -38,6 +38,8 @@ function lineChart(req, res) {
 
             let matchingScans = scans.filter(x => moment(x.time).isSame(currentDate, 'week'));
 
+            console.log("matching scans: " + matchingScans);
+
             let numNormal = matchingScans.filter(scan => scan.status === true).length;
             let numFaulty = matchingScans.filter(scan => scan.status === false).length;
 
