@@ -10,7 +10,7 @@ function equipment(req, res) {
         {
             _id: new mongoose.Types.ObjectId('5e53f1c36c7df42438366bde'),
             identifier: 'LG932-A',
-            image: 'machine.jpg',
+            image: 'machine.png',
         });
 
     equipment.save(function (err) {
@@ -22,7 +22,7 @@ function equipment(req, res) {
                 _id: new mongoose.Types.ObjectId('5e53f1c36c7df42438366be0'),
                 equipment: equipment._id,
                 identifier: 'Hinge',
-                image: 'hinge.jpg',
+                image: 'hinge.png',
                 description: 'A hinge used in some sort of process, very important component which has to be carefully inspected',
                 frequency: 1,
                 frequencyType: 0,
@@ -34,7 +34,7 @@ function equipment(req, res) {
                 _id: new mongoose.Types.ObjectId('5e53f1c36c7df42438366be1'),
                 equipment: equipment._id,
                 identifier: 'Bearings',
-                image: 'bearings.jpg',
+                image: 'bearings.png',
                 description: 'Some important component. Pay attention to xyz when inspecting it.',
                 frequency: 1,
                 frequencyType: 1,
@@ -53,7 +53,7 @@ function equipment(req, res) {
                     component: component1._id,
                     identifier: 'Step 1',
                     order: 0,
-                    image: 'machine.jpg',
+                    image: 'machine.png',
                     description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex, sit amet blandit leo lobortis eget.'
                 });
 
@@ -88,7 +88,7 @@ function equipment(req, res) {
         {
             _id: new mongoose.Types.ObjectId('5e5a7e6f682964512c73a48e'),
             identifier: 'Binning Machine',
-            image: 'machine2.jpg',
+            image: 'machine2.png',
         });
 
     equipment2.save(function (err) {
@@ -100,7 +100,7 @@ function equipment(req, res) {
                 _id: new mongoose.Types.ObjectId('5e5a7e6f682964512c73a48f'),
                 equipment: equipment2._id,
                 identifier: 'Gears',
-                image: 'gears.jpg',
+                image: 'gears.png',
                 description: 'Gears used for something',
                 frequency: 2,
                 frequencyType: 1,
@@ -113,7 +113,7 @@ function equipment(req, res) {
                 _id: new mongoose.Types.ObjectId('5e5a7e6f682964512c73a490'),
                 equipment: equipment2._id,
                 identifier: 'Hinge',
-                image: 'hinge.jpg',
+                image: 'hinge.png',
                 description: 'Another hinge.',
                 frequency: 3,
                 frequencyType: 2,
