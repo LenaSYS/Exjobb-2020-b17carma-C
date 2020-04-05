@@ -14,6 +14,6 @@
     "express": "^4.17.1",
     "moment": "^2.24.0",
     "moment-timezone": "^0.5.28",
-    "mongoose": "^5.9.1"
+    "mongoose": "^5.9.7"
   }
 }

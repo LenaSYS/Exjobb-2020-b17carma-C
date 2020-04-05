@@ -6,129 +6,139 @@ const ComponentStep = require("../../mongodb/schema/ComponentStep");
 function equipment(req, res) {
     mongoose.connect(process.env.MONGODB_CONNECTION_STRING, {useNewUrlParser: true, useUnifiedTopology: true});
 
-    let equipment = new Equipment(
+    let bottle = new Equipment(
         {
             _id: new mongoose.Types.ObjectId('5e53f1c36c7df42438366bde'),
-            identifier: 'LG932-A',
-            image: 'machine.png',
+            identifier: 'Bottle',
+            image: 'bottle.jpg',
         });
 
-    equipment.save(function (err) {
+    bottle.save(function (err) {
         if (err)
             return console.log("error saving sample equipment " + err);
 
-        let component1 = new Component(
+        let bottleLabel = new Component(
             {
                 _id: new mongoose.Types.ObjectId('5e53f1c36c7df42438366be0'),
-                equipment: equipment._id,
-                identifier: 'Hinge',
-                image: 'hinge.png',
-                description: 'A hinge used in some sort of process, very important component which has to be carefully inspected',
+                equipment: bottle._id,
+                identifier: 'Label',
+                image: 'bottle_label.jpg',
+                description: 'A label used to indicate the brand of the bottle',
                 frequency: 1,
                 frequencyType: 0,
             }
         );
 
-        let component2 = new Component(
+        let bottleLid = new Component(
             {
                 _id: new mongoose.Types.ObjectId('5e53f1c36c7df42438366be1'),
-                equipment: equipment._id,
-                identifier: 'Bearings',
-                image: 'bearings.png',
-                description: 'Some important component. Pay attention to xyz when inspecting it.',
+                equipment: bottle._id,
+                identifier: 'Lid',
+                image: 'lid.jpg',
+                description: 'A lid used to access the contents of the bottle',
                 frequency: 1,
                 frequencyType: 1,
-                frequencyDays: [1]
             }
         );
 
-        component1.save(function (err) {
+        bottleLabel.save(function (err) {
             if (err)
                 return console.log("error saving sample equipment " + err);
 
-            let componentStep = new ComponentStep(
+            let inspectLabelStep = new ComponentStep(
                 {
                     _id: new mongoose.Types.ObjectId('5e5cec8a31119e3070b939fd'),
-                    equipment: component1.equipment,
-                    component: component1._id,
+                    equipment: bottleLabel.equipment,
+                    component: bottleLabel._id,
                     identifier: 'Step 1',
                     order: 0,
-                    image: 'machine.png',
-                    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex, sit amet blandit leo lobortis eget.'
+                    description: 'Check the bottom of the label and make sure it says 980 G'
                 });
 
-            let componentStep1 = new ComponentStep(
-                {
-                    _id: new mongoose.Types.ObjectId('5e5cec8a31119e3070b93a00'),
-                    equipment: component1.equipment,
-                    component: component1._id,
-                    identifier: 'Step 2',
-                    order: 1,
-                    description: 'Remove the lid, inspect oil inside the container, bla bla',
-                });
-
-            componentStep.save(function (err) {
-                if (err)
-                    return console.log("error saving sample equipment " + err)
-            });
-
-            componentStep1.save(function (err) {
+            inspectLabelStep.save(function (err) {
                 if (err)
                     return console.log("error saving sample equipment " + err)
             });
         });
 
-        component2.save(function (err) {
+        bottleLid.save(function (err) {
             if (err)
                 return console.log("error saving sample equipment " + err)
         });
     });
 
-    let equipment2 = new Equipment(
+    let chair = new Equipment(
         {
             _id: new mongoose.Types.ObjectId('5e5a7e6f682964512c73a48e'),
-            identifier: 'Binning Machine',
-            image: 'machine2.png',
+            identifier: 'Chair',
+            image: 'chair.jpg',
         });
 
-    equipment2.save(function (err) {
+    chair.save(function (err) {
         if (err)
             return console.log("error saving sample equipment " + err);
 
-        let component1 = new Component(
+        let stand = new Component(
             {
                 _id: new mongoose.Types.ObjectId('5e5a7e6f682964512c73a48f'),
-                equipment: equipment2._id,
-                identifier: 'Gears',
-                image: 'gears.png',
-                description: 'Gears used for something',
+                equipment: chair._id,
+                identifier: 'Stand',
+                image: 'chair_stand.jpg',
+                description: 'A stand used to hold the seat in place',
                 frequency: 2,
                 frequencyType: 1,
-                frequencyDays: [2, 3, 6]
+                frequencyDays: [1, 2, 3, 6]
             }
         );
 
-        let component2 = new Component(
+        let seat = new Component(
             {
                 _id: new mongoose.Types.ObjectId('5e5a7e6f682964512c73a490'),
-                equipment: equipment2._id,
-                identifier: 'Hinge',
-                image: 'hinge.png',
-                description: 'Another hinge.',
+                equipment: chair._id,
+                identifier: 'Seat',
+                image: 'chair_seat.jpg',
+                description: 'A seat used to sit in',
                 frequency: 3,
                 frequencyType: 2,
-                frequencyDays: [2, 3, 6]
             }
         );
 
-        component1.save(function (err) {
+        stand.save(function (err) {
             if (err)
-                return console.log("error saving sample equipment " + err)
+                return console.log("error saving sample equipment " + err);
+
+            let inspectStandStep = new ComponentStep(
+                {
+                    equipment: stand.equipment,
+                    component: stand._id,
+                    identifier: 'Step 1',
+                    order: 0,
+                    description: 'Make sure there is no damage to the metal on the stand'
+                });
+
+            inspectStandStep.save(function (err) {
+                if (err)
+                    return console.log("error saving sample equipment " + err)
+            });
         });
 
-        component2.save(function (err) {
+        seat.save(function (err) {
             if (err)
-                return console.log("error saving sample equipment " + err)
+                return console.log("error saving sample equipment " + err);
+
+            let inspectSeatStep = new ComponentStep(
+                {
+                    equipment: seat.equipment,
+                    component: seat._id,
+                    identifier: 'Step 1',
+                    order: 0,
+                    description: 'Make sure it is possible to turn the seat'
+                });
+
+            inspectSeatStep.save(function (err) {
+                if (err)
+                    return console.log("error saving sample equipment " + err)
+            });
         });
     });
 
