@@ -13,7 +13,7 @@ function overview(req, res) {
         let startDate = moment(req.params.startDate);
         let endDate = moment(req.params.endDate);
 
-        Scan.find().exec( function (err, scans) {
+        Scan.find().exec(function (err, scans) {
             if (err)
                 return console.log(err);
 
@@ -23,10 +23,8 @@ function overview(req, res) {
 
                 let saveObject = {
                     date: currentDate,
-                    data: [],
+                    equipment: {},
                 };
-
-                actionRequiredComponents.push(saveObject);
 
                 components.map(function (component) {
                     let expectedCount = component.frequency;
@@ -45,9 +43,14 @@ function overview(req, res) {
                             clonedComponent.scanStatus = dailyScan.status;
                         }
 
-                        saveObject.data.push(clonedComponent);
+                        if (!saveObject.equipment.hasOwnProperty(clonedComponent.equipment)) {
+                            saveObject.equipment[clonedComponent.equipment] = [];
+                        }
+
+                        saveObject.equipment[clonedComponent.equipment].push(clonedComponent)
                     }
                 });
+                actionRequiredComponents.push(saveObject);
             }
             return res.send(JSON.stringify(actionRequiredComponents));
         });
