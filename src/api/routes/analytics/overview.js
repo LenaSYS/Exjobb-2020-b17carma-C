@@ -23,7 +23,7 @@ function overview(req, res) {
 
                 let saveObject = {
                     date: currentDate,
-                    equipment: {},
+                    equipment: [],
                 };
 
                 components.map(function (component) {
@@ -43,11 +43,22 @@ function overview(req, res) {
                             clonedComponent.scanStatus = dailyScan.status;
                         }
 
-                        if (!saveObject.equipment.hasOwnProperty(clonedComponent.equipment)) {
-                            saveObject.equipment[clonedComponent.equipment] = [];
+                        let existingObject = saveObject.equipment.find(equip => {
+                            return equip.equipment._id === clonedComponent.equipment._id
+                        });
+
+                        if (existingObject === null || existingObject === undefined) {
+                            let equipmentObject = {
+                                equipment: clonedComponent.equipment,
+                                components: [clonedComponent]
+                            };
+
+                            saveObject.equipment.push(equipmentObject);
+
+                        } else {
+                            existingObject.components.push(clonedComponent)
                         }
 
-                        saveObject.equipment[clonedComponent.equipment].push(clonedComponent)
                     }
                 });
                 actionRequiredComponents.push(saveObject);
