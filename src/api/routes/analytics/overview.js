@@ -47,7 +47,7 @@ function overview(req, res) {
                             return equip.equipment._id === clonedComponent.equipment._id
                         });
 
-                        if (existingObject === null || existingObject === undefined) {
+                        if (existingObject === undefined) {
                             let equipmentObject = {
                                 equipment: clonedComponent.equipment,
                                 components: [clonedComponent]
@@ -63,6 +63,22 @@ function overview(req, res) {
                 });
                 actionRequiredComponents.push(saveObject);
             }
+
+            //Add analytic data for progress spinner
+            actionRequiredComponents.forEach((component) => {
+                component.equipment.forEach((equipment) => {
+                    let total = equipment.components.length;
+                    let count = 0;
+
+                    equipment.components.forEach((eqComponent) => {
+                        if (eqComponent.hasOwnProperty('scanStatus'))
+                            count++;
+                    });
+
+                    equipment.progress = count / total * 100;
+                })
+            });
+
             return res.send(JSON.stringify(actionRequiredComponents));
         });
     });
