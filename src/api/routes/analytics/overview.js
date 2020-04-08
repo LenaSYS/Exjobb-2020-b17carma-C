@@ -66,7 +66,7 @@ function overview(req, res) {
 
             //Add analytic data for progress spinner
             actionRequiredComponents.forEach((component) => {
-                component.equipment.forEach((equipment) => {
+                component.data.forEach((equipment) => {
                     let total = equipment.components.length;
                     let count = 0;
 
