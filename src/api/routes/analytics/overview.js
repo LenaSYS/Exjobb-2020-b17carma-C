@@ -22,8 +22,8 @@ function overview(req, res) {
                 let currentDay = currentDate.isoWeekday();
 
                 let saveObject = {
-                    date: currentDate,
-                    equipment: [],
+                    title: currentDate,
+                    data: [],
                 };
 
                 components.map(function (component) {
@@ -43,7 +43,7 @@ function overview(req, res) {
                             clonedComponent.scanStatus = dailyScan.status;
                         }
 
-                        let existingObject = saveObject.equipment.find(equip => {
+                        let existingObject = saveObject.data.find(equip => {
                             return equip.equipment._id === clonedComponent.equipment._id
                         });
 
@@ -53,7 +53,7 @@ function overview(req, res) {
                                 components: [clonedComponent]
                             };
 
-                            saveObject.equipment.push(equipmentObject);
+                            saveObject.data.push(equipmentObject);
 
                         } else {
                             existingObject.components.push(clonedComponent)
