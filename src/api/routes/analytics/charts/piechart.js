@@ -1,9 +1,6 @@
-const mongoose = require('mongoose');
 const Scan = require("../../../mongodb/schema/Scan");
 
 function pieChart(req, res) {
-    mongoose.connect(process.env.MONGODB_CONNECTION_STRING, {useNewUrlParser: true, useUnifiedTopology: true});
-
     let successCount = 0;
     let failureCount = 0;
 

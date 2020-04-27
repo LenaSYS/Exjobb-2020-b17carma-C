@@ -1,10 +1,7 @@
-const mongoose = require('mongoose');
 const Component = require("../../mongodb/schema/Component");
 const utils = require('./componentutils');
 
 function componentInfo(req, res) {
-    mongoose.connect(process.env.MONGODB_CONNECTION_STRING, {useNewUrlParser: true, useUnifiedTopology: true});
-
     Component.findOne({
         equipment: req.params.equipmentId,
         _id: req.params.componentId

@@ -7,11 +7,14 @@ const analytics = require('./api/routes/analytics/analytics');
 const sample = require('./api/routes/sample/sample');
 const dotenv = require('dotenv');
 const moment = require('moment-timezone');
+const mongoose = require('mongoose');
 
 dotenv.config();
 moment.tz.setDefault("Europe/Berlin");
 
 const app = express();
+
+mongoose.connect(process.env.MONGODB_CONNECTION_STRING, {useNewUrlParser: true, useUnifiedTopology: true});
 
 app.use(cors());
 app.use(express.json());

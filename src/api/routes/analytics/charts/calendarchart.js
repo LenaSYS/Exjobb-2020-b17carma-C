@@ -1,11 +1,8 @@
-const mongoose = require('mongoose');
 const moment = require('moment-timezone');
 
 const Scan = require("../../../mongodb/schema/Scan");
 
 function calendarChart(req, res) {
-    mongoose.connect(process.env.MONGODB_CONNECTION_STRING, {useNewUrlParser: true, useUnifiedTopology: true});
-
     Scan.find().lean().exec(function (err, scans) {
         let days = [];
 

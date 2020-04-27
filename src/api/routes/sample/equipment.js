@@ -4,8 +4,6 @@ const Component = require("../../mongodb/schema/Component");
 const ComponentStep = require("../../mongodb/schema/ComponentStep");
 
 function equipment(req, res) {
-    mongoose.connect(process.env.MONGODB_CONNECTION_STRING, {useNewUrlParser: true, useUnifiedTopology: true});
-
     let bottle = new Equipment(
         {
             _id: new mongoose.Types.ObjectId('5e53f1c36c7df42438366bde'),

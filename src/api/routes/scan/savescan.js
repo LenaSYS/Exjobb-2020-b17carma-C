@@ -1,9 +1,7 @@
-const mongoose = require('mongoose');
 const Scan = require("../../mongodb/schema/Scan");
 const Component = require("../../mongodb/schema/Component");
 
 function saveScan(req, res) {
-    mongoose.connect(process.env.MONGODB_CONNECTION_STRING, {useNewUrlParser: true, useUnifiedTopology: true});
     console.log("Saved scan. Equipment Id: " + req.body.equipmentId + ", Component Id: " + req.body.componentId + ", Status: " + req.body.status);
 
     let scanResult = new Scan({

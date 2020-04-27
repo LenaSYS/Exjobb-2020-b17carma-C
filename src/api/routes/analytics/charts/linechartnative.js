@@ -1,11 +1,8 @@
-const mongoose = require('mongoose');
 const moment = require('moment-timezone');
 
 const Scan = require("../../../mongodb/schema/Scan");
 
 function lineChart(req, res) {
-    mongoose.connect(process.env.MONGODB_CONNECTION_STRING, {useNewUrlParser: true, useUnifiedTopology: true});
-
     let startDate = moment(req.params.startDate);
     let endDate = moment(req.params.endDate);
 

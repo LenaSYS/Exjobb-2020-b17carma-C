@@ -1,12 +1,9 @@
-const mongoose = require('mongoose');
 const moment = require('moment-timezone');
 
 const Scan = require("../../mongodb/schema/Scan");
 const Component = require("../../mongodb/schema/Component");
 
 function overview(req, res) {
-    mongoose.connect(process.env.MONGODB_CONNECTION_STRING, {useNewUrlParser: true, useUnifiedTopology: true});
-
     Component.find().populate('equipment').lean().exec(function (err, components) {
         let actionRequiredComponents = [];
 

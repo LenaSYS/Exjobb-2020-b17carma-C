@@ -1,10 +1,7 @@
-const mongoose = require('mongoose');
 const Component = require("../../mongodb/schema/Component");
 const Scan = require("../../mongodb/schema/Scan");
 
 function scans(req, res) {
-    mongoose.connect(process.env.MONGODB_CONNECTION_STRING, {useNewUrlParser: true, useUnifiedTopology: true});
-
     function randomDate(start, end, startHour, endHour) {
         let date = new Date(+start + Math.random() * (end - start));
         let hour = startHour + Math.random() * (endHour - startHour) | 0;
