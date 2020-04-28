@@ -2,7 +2,7 @@ const Scan = require("../../mongodb/schema/Scan");
 const Component = require("../../mongodb/schema/Component");
 
 function saveScan(req, res) {
-    console.log("Saved scan. Equipment Id: " + req.body.equipmentId + ", Component Id: " + req.body.componentId + ", Status: " + req.body.status);
+    //console.log("Saved scan. Equipment Id: " + req.body.equipmentId + ", Component Id: " + req.body.componentId + ", Status: " + req.body.status);
 
     let scanResult = new Scan({
         equipmentId: req.body.equipmentId,
@@ -18,7 +18,7 @@ function saveScan(req, res) {
         const filter = {_id: req.body.componentId, equipment: req.body.equipmentId};
         const update = {lastScan: scanResult._id};
 
-        Component.updateOne(filter, update, function (err, doc) {
+        Component.updateOne(filter, update, function (err) {
             if (err)
                 console.log(err);
         });
