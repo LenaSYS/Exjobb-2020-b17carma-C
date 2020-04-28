@@ -13,18 +13,18 @@ function saveScan(req, res) {
 
     scanResult.save(function (err) {
         if (err)
-            return console.log("error saving scan");
+            return res.send({"status": "error saving result"});
 
         const filter = {_id: req.body.componentId, equipment: req.body.equipmentId};
         const update = {lastScan: scanResult._id};
 
         Component.updateOne(filter, update, function (err) {
             if (err)
-                console.log(err);
+                return res.send({"status": "error updating component"});
+
+            return res.send({"status": "ok"});
         });
     });
-
-    return res.send({"status": "ok"});
 }
 
 module.exports = saveScan;
